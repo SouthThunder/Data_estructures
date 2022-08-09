@@ -24,6 +24,7 @@ struct
 	vector<string> sec;
 }secuencias;
 
+//comment 
 
 void comand(std::string &first, std::string &last, string &input)
 {
@@ -171,6 +172,14 @@ void safe(string file)
 		if(output.fail())
 		{
 			cout << "Error al abrir el archivo porfavor comprobar el nombre" << endl;
+		}
+		else
+		{
+			for(int i=0;i<secuencias.id.size();i++)
+			{
+				output<<secuencias.id[i];
+				output<<secuencias.sec[i];
+			}
 		}
 	}	
 
