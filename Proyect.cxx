@@ -118,6 +118,17 @@ void imp()
 }
 
 
+
+
+
+void list_secs()
+{
+	cout << "La secuencia " << secuen.id << secuen.num_bases() << " bases diferentes en la secuencia" << endl;
+}
+
+
+
+
 void count()
 {
 	if(secuen.check()==true)
@@ -191,7 +202,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 				{
 					if(last=="")
 					{
-						imp();
+						list_secs();
 					}
 					else
 					{

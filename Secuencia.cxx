@@ -23,15 +23,24 @@ bool Secuencia::check()
 	return false;
 }
 
+
+
 int Secuencia::sec_size()
 {
 	return itsec.size();
 }
 
+
+
+
+
 int Secuencia::id_size()
 {
 	return id.size();
 }
+
+
+
 
 void Secuencia::ObtenerSecuencia()
 {
@@ -41,6 +50,23 @@ void Secuencia::ObtenerSecuencia()
 	}
 	cout << endl;
 }
+
+
+int Secuencia::num_bases()
+{
+	int total;
+	for(int i=0;i<itsec.size();i++)
+	{
+		if(itsec[i]=='A' || itsec[i]=='C' || itsec[i]=='G' || itsec[i]=='T')
+		{
+			total++;
+		}
+	}
+	return total;
+}
+
+
+
 
 void Secuencia::CargarSecuencia(string file)
 {

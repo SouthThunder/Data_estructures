@@ -14,7 +14,7 @@ public:
 	bool check();
 	int sec_size();
 	int id_size();
-
+	int num_bases();
 protected:
 	std::vector <char> itsec;
 	std::vector<std::string> id;
