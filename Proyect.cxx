@@ -4,8 +4,11 @@
 #include <fstream>
 #include <vector>
 #include <cstring>
+#include "Secuencia.h"
 
 using namespace std; 
+
+Secuencia secuen;
 
 struct
 {
@@ -18,13 +21,6 @@ struct
 	std::string guardar="guardar";
 }opc;
 
-struct
-{
-	vector<string> id;
-	vector<string> sec;
-}secuencias;
-
-//comment 
 
 void comand(std::string &first, std::string &last, string &input)
 {
@@ -113,55 +109,31 @@ void user_helper(string first, string last, string line)
 
 void afile(string file)
 {
-	int i=0;
-	string line;
-	ifstream input;
-	input.open(file, ios::in);
-	if(input.fail())
-	{
-		cout << "El archivo proporcionado no se pudo abrir, revise el nombre o los permisos" << endl;
-	}
-	else
-	{
-		cout << "Archivo cargador correctamente" << endl;
-		while(input.eof()==false)
-		{
-			if(i==0)
-			{
-				input.ignore(1);
-				i++;
-			}
-				getline(input,line,'\n');
-				secuencias.id.push_back(line);
-				getline(input,line,'>');
-				secuencias.sec.push_back(line);
-		}
-		if(secuencias.id.empty() && secuencias.sec.empty())
-		{
-			cout << file << " no contiene ninguna secuencia" << endl;
-		}
-		else
-		{
-			cout << secuencias.id.size() << " secuencias cargadas correctamente desde " << file << endl;
-		}
-	}
+	secuen.CargarSecuencia(file);
 }
+
+void imp()
+{
+	secuen.ObtenerSecuencia();
+}
+
 
 void count()
 {
-	if(secuencias.sec.empty())
+	if(secuen.check()==true)
 	{
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
 	else
 	{
-		cout << secuencias.sec.size() << " secuencias en memoria" << endl;
+		cout << secuen.id_size() << " secuencias en memoria" << endl;
 	}
 }
 
-void safe(string file)
+/*void safe(string file)
 {
-	if(secuencias.id.empty())
+	Secuencia secuen;
+	if(secuen.check())
 	{
 			cout << "No hay secuencias cargadas en memoria" << endl;
 	}
@@ -175,15 +147,15 @@ void safe(string file)
 		}
 		else
 		{
-			for(int i=0;i<secuencias.id.size();i++)
+			for(int i=0;i<secuen.id_size();i++)
 			{
-				output<<secuencias.id[i];
-				output<<secuencias.sec[i];
+				output<<secuen.id_size();
+				output<<secuen.ObtenerSecuencia();	
 			}
 		}
 	}	
 
-}
+}*/
 
 
 void interface(bool &cond, string &first, string &last, string &line)
@@ -219,7 +191,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 				{
 					if(last=="")
 					{
-						cout << "This is listar_secuencias" << endl;
+						imp();
 					}
 					else
 					{
