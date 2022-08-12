@@ -123,7 +123,7 @@ void imp()
 
 void list_secs()
 {
-	cout << "La secuencia " << secuen.id << secuen.num_bases() << " bases diferentes en la secuencia" << endl;
+	cout << "Se tiene " << secuen.num_bases() << " bases diferentes en la secuencia" << endl;
 }
 
 
@@ -185,6 +185,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					else
 					{
 						afile(last);	
+						//imp();
 					}
 				}
 				if(first==opc.conteo)

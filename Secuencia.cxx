@@ -3,11 +3,12 @@
 #include <cstring>
 #include <vector>
 #include <fstream>
+#include <list>
 
 using namespace std;
 
-	vector <char> itsec;
-	vector <string> id; 
+	list <char> itsec;
+	list <string> id; 
 
 Secuencia::Secuencia(){
 
@@ -44,9 +45,10 @@ int Secuencia::id_size()
 
 void Secuencia::ObtenerSecuencia()
 {
-	for(int i=0;i<itsec.size();i++)
+	list <char> ::iterator itr=itsec.begin();
+	for(;itr!=itsec.end();itr++)
 	{
-		cout << itsec[i];
+		cout << *itr;
 	}
 	cout << endl;
 }
@@ -55,9 +57,10 @@ void Secuencia::ObtenerSecuencia()
 int Secuencia::num_bases()
 {
 	int total;
+	list <char>::iterator itr=itsec.begin();
 	for(int i=0;i<itsec.size();i++)
 	{
-		if(itsec[i]=='A' || itsec[i]=='C' || itsec[i]=='G' || itsec[i]=='T')
+		if(*itr=='A' || *itr=='C' || *itr=='G' || *itr=='T')
 		{
 			total++;
 		}
@@ -96,6 +99,7 @@ void Secuencia::CargarSecuencia(string file)
 				{
 					itsec.push_back(line[i]);
 				}
+				//posible solucion, crear un identificador de posicion, para definir en qué 
 		}
 		if(itsec.empty() && id.empty())
 		{

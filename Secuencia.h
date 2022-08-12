@@ -16,8 +16,8 @@ public:
 	int id_size();
 	int num_bases();
 protected:
-	std::vector <char> itsec;
-	std::vector<std::string> id;
+	std::list <char> itsec;
+	std::list<std::string> id;
 };
 
 #endif
