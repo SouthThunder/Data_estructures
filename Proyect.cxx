@@ -123,7 +123,7 @@ void imp()
 
 void list_secs()
 {
-	cout << "La secuencia " << secuen.id << secuen.num_bases() << " bases diferentes en la secuencia" << endl;
+	//cout << "La secuencia " << secuen.id << secuen.num_bases() << " bases diferentes en la secuencia" << endl;
 }
 
 
