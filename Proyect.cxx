@@ -123,7 +123,7 @@ void imp()
 
 void list_secs()
 {
-	cout << "Se tiene " << secuen.num_bases() << " bases diferentes en la secuencia" << endl;
+	secuen.num_bases();
 }
 
 
@@ -167,6 +167,10 @@ void count()
 	}	
 
 }*/
+void idktesting()
+{
+	secuen.testing();
+}
 
 
 void interface(bool &cond, string &first, string &last, string &line)
@@ -185,7 +189,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					else
 					{
 						afile(last);	
-						imp();
+						//idktesting();
 					}
 				}
 				if(first==opc.conteo)

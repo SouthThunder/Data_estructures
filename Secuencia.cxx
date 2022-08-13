@@ -18,7 +18,7 @@ Secuencia::Secuencia(){
 
 bool Secuencia::check()
 {
-	if(sec.empty())
+	if(lsec.empty())
 	{
 		return true;
 	}
@@ -30,7 +30,7 @@ bool Secuencia::check()
 
 int Secuencia::sec_size()
 {
-	return sec.size();
+	return lsec.size();
 }
 
 
@@ -39,7 +39,7 @@ int Secuencia::sec_size()
 
 int Secuencia::id_size()
 {
-	return id.size();
+	return lid.size();
 }
 
 
@@ -56,18 +56,30 @@ void Secuencia::ObtenerSecuencia()
 }
 
 
-int Secuencia::num_bases()
+void Secuencia::num_bases()
 {
 	int total;
-	list <char>::iterator itr=sec.begin();
-	for(int i=0;i<sec.size();i++)
+	list<list<char>> ::iterator itrsec=lsec.begin();
+	list<list<string>>::iterator itrid=lid.begin();
+	for(;itrsec!=lsec.end();itrsec++)
 	{
-		if(*itr=='A' || *itr=='C' || *itr=='G' || *itr=='T')
+		list<string>testid=*itrid;
+		list<string>::iterator itrtestid=testid.begin();
+
+		list<char>test=*itrsec;
+		list<char>::iterator itrtest=test.begin();
+
+		for(;itrtest!=test.end();itrtest++)
 		{
-			total++;
+			if(*itrtest=='A' || *itrtest=='C' || *itrtest=='G' || *itrtest=='T')
+			{
+				total++;
+			}
 		}
+		cout << "La secuencia " << *itrtestid << " contiene " << total << " bases" << endl; 
+		total=0;
+		itrid++;
 	}
-	return total;
 }
 
 
@@ -101,11 +113,19 @@ void Secuencia::CargarSecuencia(string file)
 				{
 					sec.push_back(line[i]);
 				}
-				//posible solucion, crear un identificador universal para definir la posición del identificador 
-				lsec.push_back(sec);
-				lid.push_back(id);
+			lsec.push_back(sec);
+			lid.push_back(id);
+				for(int i=0;i<line.size();i++)
+				{
+					sec.pop_back();
+				}
+				for(int i=0;i<id.size();i++)
+				{
+					id.pop_back();
+				}
 		}
-		if(sec.empty() && id.empty())
+		
+		if(lsec.empty() && lid.empty())
 		{
 			cout << file << " no contiene ninguna secuencia" << endl;
 		}
@@ -114,4 +134,39 @@ void Secuencia::CargarSecuencia(string file)
 			cout << "Secuencias cargadas correctamente desde " << file << endl;
 		}
 	}
+}
+
+
+
+void Secuencia::testing()
+{
+	int i=0;
+	list<list<string>>::iterator fuck=lid.begin();
+	list<list<char>> ::iterator itrsec=lsec.begin();
+	for(;itrsec!=lsec.end();itrsec++)
+	{
+		list<string>shit=*fuck;
+		list<string>::iterator itrshit=shit.begin();
+
+		list<char>idk=*itrsec;
+		list <char>::iterator itridk=idk.begin();
+		if(i==0)
+		{
+			/*for(;itridk!=idk.end();itridk++)
+			{
+				cout << *itridk;
+			}*/
+		}
+		else
+		{
+			for(;itridk!=idk.end();itridk++)
+			{
+				cout << *itridk;
+			}
+		}		
+		i++;
+		fuck++;
+	}
+	cout << endl;
+	cout << i << endl;
 }

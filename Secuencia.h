@@ -14,7 +14,8 @@ public:
 	bool check();
 	int sec_size();
 	int id_size();
-	int num_bases();
+	void num_bases();
+	void testing();
 protected:
 	std::list <std::string> id;
 	std::list <char> sec;
