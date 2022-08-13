@@ -185,7 +185,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					else
 					{
 						afile(last);	
-						//imp();
+						imp();
 					}
 				}
 				if(first==opc.conteo)

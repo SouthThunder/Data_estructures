@@ -6,9 +6,11 @@
 #include <list>
 
 using namespace std;
-
-	list <char> itsec;
-	list <string> id; 
+	list <char> sec;
+	list <string> id;
+	list <list<char>> lsec;
+	list <list <string>> lid; 
+	int UniID;
 
 Secuencia::Secuencia(){
 
@@ -16,7 +18,7 @@ Secuencia::Secuencia(){
 
 bool Secuencia::check()
 {
-	if(itsec.empty())
+	if(sec.empty())
 	{
 		return true;
 	}
@@ -28,7 +30,7 @@ bool Secuencia::check()
 
 int Secuencia::sec_size()
 {
-	return itsec.size();
+	return sec.size();
 }
 
 
@@ -45,8 +47,8 @@ int Secuencia::id_size()
 
 void Secuencia::ObtenerSecuencia()
 {
-	list <char> ::iterator itr=itsec.begin();
-	for(;itr!=itsec.end();itr++)
+	list <char> ::iterator itr=sec.begin();
+	for(;itr!=sec.end();itr++)
 	{
 		cout << *itr;
 	}
@@ -57,8 +59,8 @@ void Secuencia::ObtenerSecuencia()
 int Secuencia::num_bases()
 {
 	int total;
-	list <char>::iterator itr=itsec.begin();
-	for(int i=0;i<itsec.size();i++)
+	list <char>::iterator itr=sec.begin();
+	for(int i=0;i<sec.size();i++)
 	{
 		if(*itr=='A' || *itr=='C' || *itr=='G' || *itr=='T')
 		{
@@ -97,11 +99,13 @@ void Secuencia::CargarSecuencia(string file)
 				getline(input,line,'>');
 				for(int i=0;i<line.size();i++)
 				{
-					itsec.push_back(line[i]);
+					sec.push_back(line[i]);
 				}
-				//posible solucion, crear un identificador de posicion, para definir en qué 
+				//posible solucion, crear un identificador universal para definir la posición del identificador 
+				lsec.push_back(sec);
+				lid.push_back(id);
 		}
-		if(itsec.empty() && id.empty())
+		if(sec.empty() && id.empty())
 		{
 			cout << file << " no contiene ninguna secuencia" << endl;
 		}

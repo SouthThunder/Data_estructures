@@ -16,8 +16,10 @@ public:
 	int id_size();
 	int num_bases();
 protected:
-	std::list <char> itsec;
-	std::list<std::string> id;
+	std::list <std::string> id;
+	std::list <char> sec;
+	std::list <std::list<char>> lsec;
+	std::list<std::list<std::string>> lid;
 };
 
 #endif
