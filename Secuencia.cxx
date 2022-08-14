@@ -113,8 +113,8 @@ void Secuencia::num_bases()
 		total=0;
 		itrid++;
 	}
-
 }
+
 
 void Secuencia::histograma(string secid)
 {
@@ -178,6 +178,7 @@ void Secuencia::histograma(string secid)
 	timina=0;
 	uracilo=0;
 }
+
 
 
 
