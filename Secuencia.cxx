@@ -10,7 +10,11 @@ using namespace std;
 	list <string> id;
 	list <list<char>> lsec;
 	list <list <string>> lid; 
-	int UniID;
+	int adenina;
+	int citosina;
+	int guanina;
+	int timina;
+	int uracilo;
 
 Secuencia::Secuencia(){
 
@@ -76,24 +80,105 @@ void Secuencia::num_bases()
 			{
 				cond=true;
 			}
-			if(*itrtest=='A' || *itrtest=='C' || *itrtest=='G' || *itrtest=='T')
+
+			if(*itrtest=='A')
+			{
+				total++;
+			}
+			if(*itrtest=='C')
+			{
+				total++;
+			}
+			if(*itrtest=='G')
+			{
+				total++;
+			}
+			if(*itrtest=='T')
+			{
+				total++;
+			}
+			if(*itrtest=='U')
 			{
 				total++;
 			}
 		}
-		 
-		if(cond)
-		{
-			cout << "La secuencia " << *itrtestid << " contiene al menos " << total << " bases" << endl;
-		}
-		else
-		{
-			cout << "La secuencia " << *itrtestid << " contiene " << total << " bases" << endl;
-		}
+			if(cond)
+			{
+				cout << "La secuencia " << *itrtestid << " contiene al menos " << total << " bases" << endl;
+			}
+			else
+			{
+				cout << "La secuencia " << *itrtestid << " contiene " << total << " bases" << endl;
+			}
 		total=0;
 		itrid++;
 	}
+
 }
+
+void Secuencia::histograma(string secid)
+{
+	bool cond=false;
+	list<list<char>> ::iterator itrsec=lsec.begin();
+	list<list<string>>::iterator itrid=lid.begin();
+
+	for(;itrid!=lid.end();itrid++)
+	{
+		list<string>testid=*itrid;
+		list<string>::iterator itrtestid=testid.begin();
+		for(;itrtestid!=testid.end();itrtestid++)
+		{
+			if(secid.compare(*itrtestid)==0)
+			{
+				cond=true;
+				list<char>test=*itrsec;
+				list<char>::iterator itrtest=test.begin();
+				for(;itrtest!=test.end();itrtest++)
+				{
+					if(*itrtest=='A')
+					{
+						adenina++;
+					}
+					if(*itrtest=='C')
+					{
+						citosina++;
+					}
+					if(*itrtest=='G')
+					{
+						guanina++;
+					}
+					if(*itrtest=='T')
+					{
+						timina++;
+					}
+					if(*itrtest=='U')
+					{
+						uracilo++;
+					}
+				}
+			}
+			itrsec++;
+		}
+	}
+	if(cond)
+	{
+		cout << "A: " << adenina << endl;
+		cout << "C: " << citosina << endl;
+		cout << "G: " << guanina << endl;
+		cout << "T: " << timina << endl;
+		cout << "U: " << uracilo << endl;
+	}
+	else
+	{
+		cout << "La secuencia: " << secid << " no fue encontrada, porfavor revise el identificador" << endl;
+	}
+	adenina=0;
+	citosina=0;
+	guanina=0;
+	timina=0;
+	uracilo=0;
+}
+
 
 
 

@@ -117,7 +117,10 @@ void imp()
 	secuen.ObtenerSecuencia();
 }
 
-
+void hist(string last)
+{
+	secuen.histograma(last);
+}
 
 
 
@@ -222,7 +225,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					}
 					else
 					{
-						cout << "This is histograma" << endl;	
+						hist(last);
 					}
 				}
 				if(first==opc.es_subsecuencia)
