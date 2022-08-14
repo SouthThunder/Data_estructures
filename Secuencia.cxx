@@ -113,8 +113,8 @@ void Secuencia::num_bases()
 		total=0;
 		itrid++;
 	}
-
 }
+
 
 void Secuencia::histograma(string secid)
 {
@@ -183,6 +183,7 @@ void Secuencia::histograma(string secid)
 
 
 
+
 void Secuencia::CargarSecuencia(string file)
 {	
 	int i=0;
@@ -231,39 +232,4 @@ void Secuencia::CargarSecuencia(string file)
 			cout << "Secuencias cargadas correctamente desde " << file << endl;
 		}
 	}
-}
-
-
-
-void Secuencia::testing()
-{
-	int i=0;
-	list<list<string>>::iterator fuck=lid.begin();
-	list<list<char>> ::iterator itrsec=lsec.begin();
-	for(;itrsec!=lsec.end();itrsec++)
-	{
-		list<string>shit=*fuck;
-		list<string>::iterator itrshit=shit.begin();
-
-		list<char>idk=*itrsec;
-		list <char>::iterator itridk=idk.begin();
-		if(i==0)
-		{
-			/*for(;itridk!=idk.end();itridk++)
-			{
-				cout << *itridk;
-			}*/
-		}
-		else
-		{
-			for(;itridk!=idk.end();itridk++)
-			{
-				cout << *itridk;
-			}
-		}		
-		i++;
-		fuck++;
-	}
-	cout << endl;
-	cout << i << endl;
 }

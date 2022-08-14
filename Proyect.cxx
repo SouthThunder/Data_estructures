@@ -144,32 +144,8 @@ void count()
 	}
 }
 
-/*void safe(string file)
-{
-	Secuencia secuen;
-	if(secuen.check())
-	{
-			cout << "No hay secuencias cargadas en memoria" << endl;
-	}
-	else
-	{
-		ofstream output;
-		output.open(file, ios::in | ios::out);
-		if(output.fail())
-		{
-			cout << "Error al abrir el archivo porfavor comprobar el nombre" << endl;
-		}
-		else
-		{
-			for(int i=0;i<secuen.id_size();i++)
-			{
-				output<<secuen.id_size();
-				output<<secuen.ObtenerSecuencia();	
-			}
-		}
-	}	
 
-}*/
+
 void idktesting()
 {
 	secuen.testing();
@@ -192,7 +168,6 @@ void interface(bool &cond, string &first, string &last, string &line)
 					else
 					{
 						afile(last);	
-						//idktesting();
 					}
 				}
 				if(first==opc.conteo)
