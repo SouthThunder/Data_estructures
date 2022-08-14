@@ -58,6 +58,7 @@ void Secuencia::ObtenerSecuencia()
 
 void Secuencia::num_bases()
 {
+	bool cond=false;
 	int total;
 	list<list<char>> ::iterator itrsec=lsec.begin();
 	list<list<string>>::iterator itrid=lid.begin();
@@ -71,12 +72,24 @@ void Secuencia::num_bases()
 
 		for(;itrtest!=test.end();itrtest++)
 		{
+			if(*itrtest=='-')
+			{
+				cond=true;
+			}
 			if(*itrtest=='A' || *itrtest=='C' || *itrtest=='G' || *itrtest=='T')
 			{
 				total++;
 			}
 		}
-		cout << "La secuencia " << *itrtestid << " contiene " << total << " bases" << endl; 
+		 
+		if(cond)
+		{
+			cout << "La secuencia " << *itrtestid << " contiene al menos " << total << " bases" << endl;
+		}
+		else
+		{
+			cout << "La secuencia " << *itrtestid << " contiene " << total << " bases" << endl;
+		}
 		total=0;
 		itrid++;
 	}
@@ -86,8 +99,7 @@ void Secuencia::num_bases()
 
 
 void Secuencia::CargarSecuencia(string file)
-{
-	
+{	
 	int i=0;
 	string line;
 	ifstream input;
