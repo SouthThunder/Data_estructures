@@ -180,13 +180,55 @@ void Secuencia::histograma(string secid)
 }
 
 
+void Secuencia::es_subsecuencia(string val_sec)
+{
+	string mirror;
+	bool cond=false;
+	unsigned long contador=0;
+	list<list<char>>::iterator itrsec=lsec.begin();
+	for(;itrsec!=lsec.end();itrsec++)
+	{
+		list <char> var=*itrsec;
+		list<char>::iterator itrvar=var.begin();
+		for(;itrvar!=var.end();itrvar++)
+		{
+			mirror.push_back(*itrvar);
+		}
+	}
+
+	unsigned long found=mirror.find(val_sec);
+	while(found!=string::npos)
+	{
+		cond=true;
+		contador++;
+		found=mirror.find(val_sec, found+val_sec.size());
+	}
+
+	if(!lsec.empty())
+	{
+		if(cond)
+		{
+			cout << "La secuencia dada se repite: " << contador << " veces" << endl;
+		}
+		else
+		{
+			cout << "La secuencia dada no existe" << endl;
+		}
+	}
+	else
+	{
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	contador=0;
+}	
+
 
 
 
 
 void Secuencia::CargarSecuencia(string file)
 {	
-	int i=0;
+	int j=0;
 	string line;
 	ifstream input;
 	input.open(file, ios::in);
@@ -198,10 +240,10 @@ void Secuencia::CargarSecuencia(string file)
 	{
 		while(input.eof()==false)
 		{
-			if(i==0)
+			if(j==0)
 			{
 				input.ignore(1);
-				i++;
+				j++;
 			}
 				getline(input,line,'\n');
 				id.push_back(line);

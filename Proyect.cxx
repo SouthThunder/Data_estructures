@@ -130,6 +130,11 @@ void list_secs()
 }
 
 
+void es_subsecuencia(string last)
+{
+	secuen.es_subsecuencia(last);
+}
+
 
 
 void count()
@@ -142,13 +147,6 @@ void count()
 	{
 		cout << secuen.id_size() << " secuencias en memoria" << endl;
 	}
-}
-
-
-
-void idktesting()
-{
-	secuen.testing();
 }
 
 
@@ -211,7 +209,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					}
 					else
 					{
-						cout << "This is es_subsecuencia" << endl;	
+						es_subsecuencia(last);
 					}
 				}
 				if(first==opc.enmascarar)

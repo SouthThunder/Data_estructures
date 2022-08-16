@@ -17,6 +17,7 @@ public:
 	void num_bases();
 	void testing();
 	void histograma(std::string secid);
+	void es_subsecuencia(std::string val_sec);
 protected:
 	std::list <std::string> id;
 	std::list <char> sec;
