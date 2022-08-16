@@ -155,6 +155,73 @@ void Secuencia::histograma(string secid)
 					{
 						uracilo++;
 					}
+					if(*itrtest=='R')
+					{
+						adenina++;
+						guanina++;
+					}
+					if(*itrtest=='Y')
+					{
+						citosina++;
+						timina++;
+						uracilo++;
+					}
+					if(*itrtest=='K')
+					{
+						guanina++;
+						timina++;
+						uracilo++;
+					}
+					if(*itrtest=='M')
+					{
+						adenina++;
+						citosina++;
+					}
+					if(*itrtest=='S')
+					{
+						citosina++;
+						guanina++;
+					}
+					if(*itrtest=='W')
+					{
+						adenina++;
+						citosina++;
+					}
+					if(*itrtest=='B')
+					{
+						citosina++;
+						guanina++;
+						timina++;
+						uracilo++;
+					}
+					if(*itrtest=='D')
+					{
+						adenina++;
+						guanina++;
+						timina++;
+						uracilo++;
+					}
+					if(*itrtest=='H')
+					{
+						adenina++;
+						citosina++;
+						timina++;
+						uracilo++;
+					}
+					if(*itrtest=='V')
+					{
+						adenina++;
+						citosina++;
+						guanina++;
+					}
+					if(*itrtest=='N')
+					{
+						adenina++;
+						citosina++;
+						timina++;
+						guanina++;
+						uracilo++;
+					}
 				}
 			}
 			itrsec++;
@@ -184,7 +251,7 @@ void Secuencia::es_subsecuencia(string val_sec)
 {
 	string mirror;
 	bool cond=false;
-	unsigned long contador=0;
+	unsigned int contador=0;
 	list<list<char>>::iterator itrsec=lsec.begin();
 	for(;itrsec!=lsec.end();itrsec++)
 	{
@@ -195,8 +262,7 @@ void Secuencia::es_subsecuencia(string val_sec)
 			mirror.push_back(*itrvar);
 		}
 	}
-
-	unsigned long found=mirror.find(val_sec);
+	size_t found=mirror.find(val_sec);
 	while(found!=string::npos)
 	{
 		cond=true;
@@ -221,6 +287,56 @@ void Secuencia::es_subsecuencia(string val_sec)
 	}
 	contador=0;
 }	
+
+
+void Secuencia::enmascarar(string val_sec)
+{
+	unsigned int contador=0;
+	char mask='X';
+	string mirror;
+	bool cond=false;
+	list<list<char>>::iterator itrsec=lsec.begin();
+	for(;itrsec!=lsec.end();itrsec++)
+	{
+		list <char> var=*itrsec;
+		list<char>::iterator itrvar=var.begin();
+		for(;itrvar!=var.end();itrvar++)
+		{
+			mirror.push_back(*itrvar);
+		}
+	}
+	size_t found=mirror.find(val_sec);
+	while(found!=string::npos)
+	{
+		cond=true;
+		contador++;
+		mirror[found]=mask;
+		found=mirror.find(val_sec, found+val_sec.size());
+	}
+	if(!lsec.empty())
+	{
+		if(cond)
+		{
+			if(contador==1)
+			{
+				cout << "1 secuencia ha sido enmascarada" << endl;
+			}
+			else
+			{
+				cout << contador << " secuencias han sido enmascaradas" << endl;
+			}
+		}
+		else
+		{
+			cout << "La secuencia dada no existe, por tanto no se enmascara nada." << endl;
+		}
+	}
+	else
+	{
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	contador=0;
+}
 
 
 
@@ -264,6 +380,7 @@ void Secuencia::CargarSecuencia(string file)
 					id.pop_back();
 				}
 		}
+		input.close();
 		
 		if(lsec.empty() && lid.empty())
 		{

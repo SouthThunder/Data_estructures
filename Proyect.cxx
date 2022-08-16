@@ -135,6 +135,11 @@ void es_subsecuencia(string last)
 	secuen.es_subsecuencia(last);
 }
 
+void enmascarar(string last)
+{
+	secuen.enmascarar(last);
+}
+
 
 
 void count()
@@ -220,7 +225,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					}
 					else
 					{
-						cout << "This is enmascarar" << endl;	
+						enmascarar(last);	
 					}
 				}
 				if(first==opc.guardar)
