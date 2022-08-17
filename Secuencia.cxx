@@ -289,9 +289,10 @@ void Secuencia::es_subsecuencia(string val_sec)
 }	
 
 
+
 void Secuencia::enmascarar(string val_sec)
 {
-	unsigned int contador=0;
+	unsigned long contador=0;
 	char mask='X';
 	string mirror;
 	bool cond=false;
@@ -304,8 +305,7 @@ void Secuencia::enmascarar(string val_sec)
 		{
 			mirror.push_back(*itrvar);
 		}
-	}
-	size_t found=mirror.find(val_sec);
+		size_t found=mirror.find(val_sec);
 	while(found!=string::npos)
 	{
 		cond=true;
@@ -313,6 +313,8 @@ void Secuencia::enmascarar(string val_sec)
 		mirror[found]=mask;
 		found=mirror.find(val_sec, found+val_sec.size());
 	}
+	}
+	
 	if(!lsec.empty())
 	{
 		if(cond)
@@ -391,4 +393,35 @@ void Secuencia::CargarSecuencia(string file)
 			cout << "Secuencias cargadas correctamente desde " << file << endl;
 		}
 	}
+}
+
+void Secuencia::guardar_secuencia(string file)
+{
+	ofstream output;
+	output.open(file, ios::out);
+	if(output.fail())
+	{
+		cout << "El archivo proporcionado no se pudo abrir porfavor revise el nombre o los permisos del arhivo" << endl;
+	}
+	else
+	{
+		list<list<char>>::iterator itrsec=lsec.begin();
+		list<list<string>>::iterator itrid=lid.begin();
+		for(;itrid!=lid.end();itrsec++, itrid++)
+		{
+			list<char> varsec=*itrsec;
+			list<char>::iterator itrvarsec=varsec.begin();
+			list<string> varid=*itrid;
+			list<string>::iterator itrvarid=varid.begin();
+			output<< ">";
+			output<<*itrvarid << '\n';
+			for(;itrvarsec!=varsec.end();itrvarsec++)
+			{
+				output<<*itrvarsec;
+			}
+		}
+		cout << "Archivo guardado correctamente" << endl;
+	}
+	
+	
 }

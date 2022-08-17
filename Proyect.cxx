@@ -154,6 +154,11 @@ void count()
 	}
 }
 
+void guardar(string last)
+{
+	secuen.guardar_secuencia(last);
+}
+
 
 void interface(bool &cond, string &first, string &last, string &line)
 {
@@ -236,7 +241,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					}
 					else
 					{
-						cout << "This is guardar" << endl;	
+						guardar(last);
 					}
 				}
 				if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")

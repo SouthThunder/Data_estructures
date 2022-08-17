@@ -19,6 +19,7 @@ public:
 	void histograma(std::string secid);
 	void es_subsecuencia(std::string val_sec);
 	void enmascarar(std::string val_sec);
+	void guardar_secuencia(std::string file);
 protected:
 	std::list <std::string> id;
 	std::list <char> sec;
