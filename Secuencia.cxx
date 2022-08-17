@@ -293,28 +293,43 @@ void Secuencia::es_subsecuencia(string val_sec)
 void Secuencia::enmascarar(string val_sec)
 {
 	unsigned long contador=0;
+	vector<char> vec;
 	char mask='X';
-	string mirror;
+	list <char> lmirror;
 	bool cond=false;
+	list<list<char>>l_lmirror;
 	list<list<char>>::iterator itrsec=lsec.begin();
 	for(;itrsec!=lsec.end();itrsec++)
 	{
+		string mirror;
 		list <char> var=*itrsec;
 		list<char>::iterator itrvar=var.begin();
 		for(;itrvar!=var.end();itrvar++)
 		{
 			mirror.push_back(*itrvar);
+			vec.push_back(*itrvar);
 		}
 		size_t found=mirror.find(val_sec);
-	while(found!=string::npos)
-	{
-		cond=true;
-		contador++;
-		mirror[found]=mask;
-		found=mirror.find(val_sec, found+val_sec.size());
+		while(found!=string::npos)
+		{
+			cond=true;
+			contador++;
+			vec[found]=mask;
+			found=mirror.find(val_sec, found+val_sec.size());
+		}
+
+		for(unsigned int i=0;i<vec.size();i++)
+		{
+			lmirror.push_back(vec[i]);
+		}
+		l_lmirror.push_back(lmirror);
+		lmirror.clear();
+		vec.clear();
 	}
-	}
-	
+	lsec.clear();
+	lsec=l_lmirror;
+
+
 	if(!lsec.empty())
 	{
 		if(cond)
