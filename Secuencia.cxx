@@ -51,12 +51,17 @@ int Secuencia::id_size()
 
 void Secuencia::ObtenerSecuencia()
 {
-	list <char> ::iterator itr=sec.begin();
-	for(;itr!=sec.end();itr++)
+	list<list<char>>::iterator itrsec=lsec.begin();
+	for(;itrsec!=lsec.end();itrsec++)
 	{
-		cout << *itr;
+		list<char>var=*itrsec;
+		list<char>::iterator itrvar=var.begin();
+		for(;itrvar!=var.end();itrvar++)
+		{
+			cout << *itrvar;
+		}
+		cout << endl;
 	}
-	cout << endl;
 }
 
 
@@ -262,6 +267,7 @@ void Secuencia::es_subsecuencia(string val_sec)
 			mirror.push_back(*itrvar);
 		}
 	}
+
 	size_t found=mirror.find(val_sec);
 	while(found!=string::npos)
 	{
@@ -309,12 +315,16 @@ void Secuencia::enmascarar(string val_sec)
 			mirror.push_back(*itrvar);
 			vec.push_back(*itrvar);
 		}
+
 		size_t found=mirror.find(val_sec);
 		while(found!=string::npos)
 		{
 			cond=true;
 			contador++;
-			vec[found]=mask;
+			for(int k=found;k<found+val_sec.size();k++)
+			{
+				vec[k]=mask;
+			}
 			found=mirror.find(val_sec, found+val_sec.size());
 		}
 
@@ -322,6 +332,7 @@ void Secuencia::enmascarar(string val_sec)
 		{
 			lmirror.push_back(vec[i]);
 		}
+
 		l_lmirror.push_back(lmirror);
 		lmirror.clear();
 		vec.clear();
@@ -378,7 +389,7 @@ void Secuencia::CargarSecuencia(string file)
 				input.ignore(1);
 				j++;
 			}
-				getline(input,line,'\n');
+				getline(input,line,'\n');		// lectura de datos del ifstream 
 				id.push_back(line);
 
 				getline(input,line,'>');
@@ -405,7 +416,7 @@ void Secuencia::CargarSecuencia(string file)
 		}
 		else
 		{
-			cout << "Secuencias cargadas correctamente desde " << file << endl;
+			cout <<  lid.size() <<" Secuencias cargadas correctamente desde " << file << endl;
 		}
 	}
 }
@@ -435,7 +446,7 @@ void Secuencia::guardar_secuencia(string file)
 				output<<*itrvarsec;
 			}
 		}
-		cout << "Archivo guardado correctamente" << endl;
+		cout << "las secuencias han sido guardadas en " << file << endl;
 	}
 	
 	

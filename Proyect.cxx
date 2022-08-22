@@ -119,25 +119,53 @@ void imp()
 
 void hist(string last)
 {
-	secuen.histograma(last);
+	if(secuen.check()==true)
+	{
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	else
+	{
+		secuen.histograma(last);
+	}
 }
 
 
 
 void list_secs()
 {
-	secuen.num_bases();
+	if(secuen.check()==true)
+	{
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	else
+	{
+		secuen.num_bases();
+	}
 }
 
 
 void es_subsecuencia(string last)
 {
-	secuen.es_subsecuencia(last);
+	if(secuen.check()==true)
+	{
+		cout <<  "No hay secuencias cargadas en memoria" << endl;
+	}
+	else
+	{
+		secuen.es_subsecuencia(last);
+	}
 }
 
 void enmascarar(string last)
 {
-	secuen.enmascarar(last);
+	if(secuen.check()==true)
+	{
+		cout <<  "No hay secuencias cargadas en memoria" << endl;
+	}
+	else
+	{
+		secuen.enmascarar(last);
+	}
 }
 
 
@@ -148,19 +176,33 @@ void count()
 	{
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
+	if(secuen.id_size()==1)
+	{
+		cout << "hay una secuencia cargada en memoria" << endl;
+	}
 	else
 	{
 		cout << secuen.id_size() << " secuencias en memoria" << endl;
 	}
 }
 
+
 void guardar(string last)
 {
-	secuen.guardar_secuencia(last);
+	if(secuen.check()==true)
+	{
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	else
+	{
+		secuen.guardar_secuencia(last);
+	}
 }
 
 
-void interface(bool &cond, string &first, string &last, string &line)
+
+
+void interface(bool &cond, string &first, string &last, string &line, string &cvar)
 {
 	system("CLS");
 				if(first=="help" || first=="Help" || first=="HELP")
@@ -175,6 +217,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					}
 					else
 					{
+						cvar=last;
 						afile(last);	
 					}
 				}
@@ -242,6 +285,7 @@ void interface(bool &cond, string &first, string &last, string &line)
 					else
 					{
 						guardar(last);
+						
 					}
 				}
 				if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
@@ -274,13 +318,13 @@ int main()
 	std::cout << "Bienvenido al programa de manipulacion de codigo genetico " << std::endl;
 	std::cout << "----------------------------------------------------------" << std::endl;
 	std::cout << "Porfavor indique la funcion a realizar, si necesita ayuda digite ""help"" para mostrar la lista de funciones disponibles " << std::endl;
-	std::string first,last, line;
+	std::string first,last, line, cvar;
 	bool cond=true;
 	comand(first,last,line);
 	system("CLS");	
 	while(cond)
 	{
-		interface(cond, first, last, line);
+		interface(cond, first, last, line, cvar);
 	}
 	return 0;
 }
