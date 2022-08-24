@@ -1,12 +1,12 @@
 #include <iostream>
-#include <sstream> 
-#include <string> 
+#include <sstream>
+#include <string>
 #include <fstream>
 #include <vector>
-#include <cstring>
 #include "Secuencia.h"
+#include <cstring>
 
-using namespace std; 
+using namespace std;
 
 Secuencia secuen;
 
@@ -103,13 +103,8 @@ void user_helper(string first, string last, string line)
 			if(line=="help" || line=="Help" || line=="HELP")
 		{
 			std::cout << "Funcion                             Ejemplo de ejecucion" << std::endl;
-			std::cout << "1.Cargar archivo de secuencia ---> cargar nombre_archivo\n2.Conteo de secuencias cargadas en memoria ---> conteo\n3.Imprimir informacion basica de la secuencia ---> listar_secuencias\n4.Imprimir el histograma de secuencia ---> histograma descripcion_secuencia\n5.Validacion de la secuencia ---> es_subsecuencia secuencia\n6.Enmascarar secuencia ---> enmascarar secuencia\n7.Guardar las secuencias ---> guardar nombre_archivo\n8.Salir" << std::endl;	
+			std::cout << "1.Cargar archivo de secuencia ---> cargar nombre_archivo\n2.Conteo de secuencias cargadas en memoria ---> conteo\n3.Imprimir informacion basica de la secuencia ---> listar_secuencias\n4.Imprimir el histograma de secuencia ---> histograma descripcion_secuencia\n5.Validacion de la secuencia ---> es_subsecuencia secuencia\n6.Enmascarar secuencia ---> enmascarar secuencia\n7.Guardar las secuencias ---> guardar nombre_archivo\n8.Salir" << std::endl;
 		}
-}
-
-void afile(string file)
-{
-	secuen.CargarSecuencia(file);
 }
 
 void imp()
@@ -117,9 +112,14 @@ void imp()
 	secuen.ObtenerSecuencia();
 }
 
+void afile(string file)
+{
+	secuen.CargarSecuencia(file);
+}
+
 void hist(string last)
 {
-	if(secuen.check()==true)
+	if(secuen.check())
 	{
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
@@ -133,7 +133,7 @@ void hist(string last)
 
 void list_secs()
 {
-	if(secuen.check()==true)
+	if(secuen.check())
 	{
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
@@ -146,7 +146,7 @@ void list_secs()
 
 void es_subsecuencia(string last)
 {
-	if(secuen.check()==true)
+	if(secuen.check())
 	{
 		cout <<  "No hay secuencias cargadas en memoria" << endl;
 	}
@@ -158,7 +158,7 @@ void es_subsecuencia(string last)
 
 void enmascarar(string last)
 {
-	if(secuen.check()==true)
+	if(secuen.check())
 	{
 		cout <<  "No hay secuencias cargadas en memoria" << endl;
 	}
@@ -172,7 +172,7 @@ void enmascarar(string last)
 
 void count()
 {
-	if(secuen.check()==true)
+	if(secuen.check())
 	{
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
@@ -189,7 +189,7 @@ void count()
 
 void guardar(string last)
 {
-	if(secuen.check()==true)
+	if(secuen.check())
 	{
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
@@ -218,7 +218,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 					else
 					{
 						cvar=last;
-						afile(last);	
+						afile(last);
 					}
 				}
 				if(first==opc.conteo)
@@ -273,7 +273,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 					}
 					else
 					{
-						enmascarar(last);	
+						enmascarar(last);
 					}
 				}
 				if(first==opc.guardar)
@@ -285,7 +285,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 					else
 					{
 						guardar(last);
-						
+
 					}
 				}
 				if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
@@ -321,7 +321,7 @@ int main()
 	std::string first,last, line, cvar;
 	bool cond=true;
 	comand(first,last,line);
-	system("CLS");	
+	system("CLS");
 	while(cond)
 	{
 		interface(cond, first, last, line, cvar);

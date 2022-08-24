@@ -6,10 +6,8 @@
 #include <list>
 
 using namespace std;
-	list <char> sec;
-	list <string> id;
 	list <list<char>> lsec;
-	list <list <string>> lid; 
+    list <string>lid;
 	int adenina;
 	int citosina;
 	int guanina;
@@ -26,7 +24,7 @@ bool Secuencia::check()
 	{
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -38,24 +36,21 @@ int Secuencia::sec_size()
 }
 
 
-
-
-
 int Secuencia::id_size()
 {
 	return lid.size();
 }
 
 
-
-
 void Secuencia::ObtenerSecuencia()
 {
 	list<list<char>>::iterator itrsec=lsec.begin();
-	for(;itrsec!=lsec.end();itrsec++)
+	list<string>::iterator itrid=lid.begin();
+	for(;itrsec!=lsec.end();itrsec++,itrid++)
 	{
 		list<char>var=*itrsec;
 		list<char>::iterator itrvar=var.begin();
+		cout << ">" << *itrid << endl;
 		for(;itrvar!=var.end();itrvar++)
 		{
 			cout << *itrvar;
@@ -70,12 +65,9 @@ void Secuencia::num_bases()
 	bool cond=false;
 	int total;
 	list<list<char>> ::iterator itrsec=lsec.begin();
-	list<list<string>>::iterator itrid=lid.begin();
-	for(;itrsec!=lsec.end();itrsec++)
+    list<string>::iterator itrid=lid.begin();
+	for(;itrsec!=lsec.end();itrsec++, itrid++)
 	{
-		list<string>testid=*itrid;
-		list<string>::iterator itrtestid=testid.begin();
-
 		list<char>test=*itrsec;
 		list<char>::iterator itrtest=test.begin();
 
@@ -85,7 +77,6 @@ void Secuencia::num_bases()
 			{
 				cond=true;
 			}
-
 			if(*itrtest=='A')
 			{
 				total++;
@@ -106,17 +97,60 @@ void Secuencia::num_bases()
 			{
 				total++;
 			}
+			if(*itrtest=='R')
+            {
+                total+=2;
+            }
+            if(*itrtest=='Y')
+            {
+                total+=3;
+            }
+            if(*itrtest=='K')
+            {
+                total+=3;
+            }
+            if(*itrtest=='M')
+            {
+                total+=2;
+            }
+            if(*itrtest=='S')
+            {
+                total+=2;
+            }
+            if(*itrtest=='W')
+            {
+                total+=3;
+            }
+            if(*itrtest=='B')
+            {
+                total+=4;
+            }
+            if(*itrtest=='D')
+            {
+                total+=4;
+            }
+            if(*itrtest=='H')
+            {
+                total+=4;
+            }
+            if(*itrtest=='V')
+            {
+                total+=3;
+            }
+            if(*itrtest=='N')
+            {
+                total+=5;
+            }
 		}
 			if(cond)
 			{
-				cout << "La secuencia " << *itrtestid << " contiene al menos " << total << " bases" << endl;
+				cout << "La secuencia " << *itrid << " contiene al menos " << total << " bases" << endl;
 			}
 			else
 			{
-				cout << "La secuencia " << *itrtestid << " contiene " << total << " bases" << endl;
+				cout << "La secuencia " << *itrid << " contiene " << total << " bases" << endl;
 			}
 		total=0;
-		itrid++;
 	}
 }
 
@@ -125,15 +159,10 @@ void Secuencia::histograma(string secid)
 {
 	bool cond=false;
 	list<list<char>> ::iterator itrsec=lsec.begin();
-	list<list<string>>::iterator itrid=lid.begin();
-
-	for(;itrid!=lid.end();itrid++)
+    list<string>::iterator itrid=lid.begin();
+	for(;itrid!=lid.end();itrid++, itrsec++)
 	{
-		list<string>testid=*itrid;
-		list<string>::iterator itrtestid=testid.begin();
-		for(;itrtestid!=testid.end();itrtestid++)
-		{
-			if(secid.compare(*itrtestid)==0)
+			if(secid.compare(*itrid)==0)
 			{
 				cond=true;
 				list<char>test=*itrsec;
@@ -229,11 +258,10 @@ void Secuencia::histograma(string secid)
 					}
 				}
 			}
-			itrsec++;
-		}
 	}
 	if(cond)
 	{
+	    cout << "Las bases encontradas en la secuencia ->" << secid << "<- son:" << endl;
 		cout << "A: " << adenina << endl;
 		cout << "C: " << citosina << endl;
 		cout << "G: " << guanina << endl;
@@ -292,7 +320,7 @@ void Secuencia::es_subsecuencia(string val_sec)
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
 	contador=0;
-}	
+}
 
 
 
@@ -371,7 +399,9 @@ void Secuencia::enmascarar(string val_sec)
 
 
 void Secuencia::CargarSecuencia(string file)
-{	
+{
+    lsec.clear();
+    lid.clear();
 	int j=0;
 	string line;
 	ifstream input;
@@ -384,13 +414,14 @@ void Secuencia::CargarSecuencia(string file)
 	{
 		while(input.eof()==false)
 		{
+            list<char>sec;
 			if(j==0)
 			{
 				input.ignore(1);
 				j++;
 			}
-				getline(input,line,'\n');		// lectura de datos del ifstream 
-				id.push_back(line);
+				getline(input,line,'\n');		// lectura de datos del ifstream
+				lid.push_back(line);
 
 				getline(input,line,'>');
 				for(int i=0;i<line.size();i++)
@@ -398,18 +429,9 @@ void Secuencia::CargarSecuencia(string file)
 					sec.push_back(line[i]);
 				}
 			lsec.push_back(sec);
-			lid.push_back(id);
-				for(int i=0;i<line.size();i++)
-				{
-					sec.pop_back();
-				}
-				for(int i=0;i<id.size();i++)
-				{
-					id.pop_back();
-				}
 		}
 		input.close();
-		
+
 		if(lsec.empty() && lid.empty())
 		{
 			cout << file << " no contiene ninguna secuencia" << endl;
@@ -432,15 +454,13 @@ void Secuencia::guardar_secuencia(string file)
 	else
 	{
 		list<list<char>>::iterator itrsec=lsec.begin();
-		list<list<string>>::iterator itrid=lid.begin();
+        list<string>::iterator itrid=lid.begin();
 		for(;itrid!=lid.end();itrsec++, itrid++)
 		{
 			list<char> varsec=*itrsec;
 			list<char>::iterator itrvarsec=varsec.begin();
-			list<string> varid=*itrid;
-			list<string>::iterator itrvarid=varid.begin();
 			output<< ">";
-			output<<*itrvarid << '\n';
+			output<<*itrid << '\n';
 			for(;itrvarsec!=varsec.end();itrvarsec++)
 			{
 				output<<*itrvarsec;
@@ -448,6 +468,7 @@ void Secuencia::guardar_secuencia(string file)
 		}
 		cout << "las secuencias han sido guardadas en " << file << endl;
 	}
-	
-	
+
+
 }
+
