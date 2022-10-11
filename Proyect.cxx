@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 #include "Secuencia.h"
+#include "ArbolH.h"
+#include "NodoH.h"
 #include <cstring>
 
 using namespace std;

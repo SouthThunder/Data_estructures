@@ -31,4 +31,5 @@ protected:
 	int uracilo;
 };
 
+#include "Secuencia.cxx"
 #endif
