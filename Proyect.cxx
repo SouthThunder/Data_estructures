@@ -21,6 +21,7 @@ struct
 	std::string es_subsecuencia="es_subsecuencia";
 	std::string enmascarar="enmascarar";
 	std::string guardar="guardar";
+	string test="test";
 }opc;
 
 
@@ -101,6 +102,14 @@ void user_helper(string first, string last, string line)
 				cout << "-------------------------------------------------------------------" << endl;
 				cout << "Comando de ejecucion" << endl;
 				cout << "--->guardar + nombre_archivo<---" << endl;
+			}
+			if(line=="help "+opc.test){
+				cout << "Posibles salidas de la funcion" << endl;
+				cout << "(mensaje de error) No se pueden guardar las secuencias cargadas en nombre_archivo.fabin ." << endl;
+				cout << "(codificación exitosa) Secuencias codificadas y almacenadas en nombre_archivo.fabin ." << endl;
+				cout << "-------------------------------------------------------------------" << endl;
+				cout << "Comando de ejecucion" << endl;
+				cout << "--->codificar + nombre_archivo.fabin" << endl;
 			}
 			if(line=="help" || line=="Help" || line=="HELP")
 		{
@@ -189,15 +198,22 @@ void count()
 }
 
 
-void guardar(string last)
-{
-	if(secuen.check())
-	{
+void guardar(string last){
+	if(secuen.check()){
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
-	else
-	{
+	else{
 		secuen.guardar_secuencia(last);
+	}
+}
+
+
+void testing(){
+	if(secuen.check()){
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	else{
+		secuen.cifrar();
 	}
 }
 
@@ -290,7 +306,15 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 
 					}
 				}
-				if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
+				if(first==opc.test){
+					if(last==""){
+						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
+					}
+					else{
+						testing();
+					}
+				}
+				else if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
 				{
 					std::cout << "Comando no reconocido, porfavor revisar la lista de comandos permitidos e intentelo otra vez" << '\n';
 				}

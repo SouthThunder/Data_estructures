@@ -1,6 +1,9 @@
+NodoH *init;
+vector <pair <char,string>> codigos;
+
 ArbolH::ArbolH()
 {
-    this->raiz = NULL;
+    init = NULL;
 }
 struct ArbolH::comparar
 {
@@ -10,33 +13,46 @@ struct ArbolH::comparar
         return (l->obtenerFreq() > r->obtenerFreq());
     }
 };
-void ArbolH::generarArbol(char dato[], long freq[], int tama)
+
+
+void ArbolH::generarArbol(vector<char>dato, vector<long>freq, int tama)
 {
     NodoH *left, *right, *top;
 
     priority_queue<NodoH *, vector<NodoH *>, comparar> minHeap;
+    priority_queue<NodoH *, vector<NodoH *>, comparar> minAux;
     for(int i = 0; i < minHeap.size();++i){
         minHeap.pop();
     }
-    for (int i = 0; i < tama; i++)
+    for (int i = 0; i < dato.size(); i++)
     {
         minHeap.push(new NodoH(dato[i], freq[i]));
     }
+
+
     while (minHeap.size() != 1)
     {
         left = minHeap.top();
         minHeap.pop();
         right = minHeap.top();
         minHeap.pop();
+
         unsigned int nuevaFreq = left->obtenerFreq() + right->obtenerFreq();
+
         top = new NodoH(' ', nuevaFreq);
         top->fijarHijoDer(right);
         top->fijarHijoIzq(left);
         minHeap.push(top);
     }
-    this->raiz = minHeap.top();
-    guardarCodigos(this->raiz, "");
+    NodoH *aux= new NodoH();
+    aux=minHeap.top();
+    init = aux;
+    guardarCodigos(init, "");
+    
+
 }
+
+
 void ArbolH::guardarCodigos(NodoH *inicio, string str)
 {
     if (!inicio)
@@ -85,7 +101,7 @@ string ArbolH::cifrar(string sec)
 }
 string ArbolH::desCifrar(string sec, long longiSec)
 {
-    NodoH *nodo = this->raiz;
+    NodoH *nodo = init;
     string desCifrado = "";
     int contador = 0;
     for (int i = 0; i < sec.size() +1; i++)
@@ -93,7 +109,7 @@ string ArbolH::desCifrar(string sec, long longiSec)
         if (nodo->esHoja())
         {
             desCifrado += nodo->obtenerDato();
-            nodo = this->raiz;
+            nodo = init;
             contador++;
             if(contador == longiSec){
                 break;
@@ -111,13 +127,13 @@ string ArbolH::desCifrar(string sec, long longiSec)
     return desCifrado;
 }
 NodoH * ArbolH::getRaiz(){
-    return this->raiz;
+    return init;
 }
 NodoH * ArbolH::deCodificar(NodoH *nodo, char dir, int &cont, string &des)
 {
     if(nodo->esHoja()){
         des+= nodo->obtenerDato();
-        nodo = this->raiz;
+        nodo = init;
         cont++;
     }
     if(dir == '1'){

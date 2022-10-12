@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <list>
+#include "ArbolH.h"
 
 using namespace std;
 	list <list<char>> lsec;
@@ -56,6 +57,78 @@ void Secuencia::ObtenerSecuencia()
 		}
 		cout << endl;
 	}
+}
+
+bool ver(char var, vector<char>vec){
+	for(int i=0;i<vec.size();i++){
+		if(vec[i]==var){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	return true;
+}
+
+void Secuencia::setBases(){
+	list<list<char>>::iterator itrsec=lsec.begin();
+	for(;itrsec!=lsec.end();itrsec++){
+		list<char> var=*itrsec;
+		list<char>::iterator itrvar=var.begin();
+		for(;itrvar!=var.end();itrvar++){
+			if(*itrvar=='A'){
+				adenina++;
+			}
+			else if(*itrvar=='C'){
+				citosina++;
+			}
+			else if(*itrvar=='G'){
+				guanina++;
+			}
+			else if(*itrvar=='T'){
+				timina++;
+			}
+			else if(*itrvar=='U'){
+				uracilo++;
+			}	
+		}
+	}
+}
+
+void Secuencia::cifrar(){
+	vector <char> test;
+	vector<long>test2;
+	int i=0;
+	setBases();
+	if(adenina!=0){
+		test.push_back('A');
+		test2.push_back(adenina);
+		i++;
+	}
+	if(citosina!=0){
+		test.push_back('C');
+		test2.push_back(citosina);
+		i++;
+	}
+	if(guanina!=0){
+		test.push_back('G');
+		test2.push_back(guanina);
+		i++;
+	}
+	if(timina!=0){
+		test.push_back('T');
+		test2.push_back(timina);
+		i++;
+	}
+	if(uracilo!=0){
+		test.push_back('U');
+		test2.push_back(uracilo);
+		i++;
+	}
+
+	arbol->generarArbol(test, test2, i);
+	arbol->imprimirCodigos();
 }
 
 

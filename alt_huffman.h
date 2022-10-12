@@ -1,20 +1,17 @@
-#ifndef ARBOL__H__
-#define ARBOL__H__
-
+#ifndef ALT__HUFFMAN__H
+#define ALT__HUFFMAN__H
 #include "NodoH.h"
 #include <utility>
 #include <vector>
-using namespace std;
 
-class ArbolH
-{
-private:
-    NodoH *raiz;
-    vector <pair <char,string>> codigos;
+class alt_huffman{
+private: 
+	NodoH *raiz;
+	vector <pair <char,string>> codigos;
 
 public:
     ArbolH();
-    void generarArbol(std::vector<char>i, std::vector<long>,int size);
+    void generarArbol(char dato[], long freq[],int size);
     struct comparar;
     void guardarCodigos(NodoH *inicio, string str);
     void imprimirCodigos();
@@ -26,4 +23,4 @@ public:
 };
 
 #include "ArbolH.hxx"
-#endif 
+}
