@@ -19,11 +19,14 @@ public:
 	int id_size();
 	void num_bases();
 	void testing();
+	bool search(std::vector<char>vec, char dato);
+	std::vector<char> fill();
+	std::vector<long> frecuencia(std::vector<char>ref);
+	void auxcargar(std::string file);
 	void histograma(std::string secid);
 	void es_subsecuencia(std::string val_sec);
 	void enmascarar(std::string val_sec);
 	void guardar_secuencia(std::string file);
-	void setBases();
 	void cifrar();
 protected:
 	NodoH *node;

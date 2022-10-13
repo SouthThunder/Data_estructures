@@ -15,7 +15,7 @@ struct ArbolH::comparar
 };
 
 
-void ArbolH::generarArbol(vector<char>dato, vector<long>freq, int tama)
+void ArbolH::generarArbol(vector<char>dato, vector<long>freq)
 {
     NodoH *left, *right, *top;
 
@@ -28,8 +28,6 @@ void ArbolH::generarArbol(vector<char>dato, vector<long>freq, int tama)
     {
         minHeap.push(new NodoH(dato[i], freq[i]));
     }
-
-
     while (minHeap.size() != 1)
     {
         left = minHeap.top();
@@ -84,12 +82,13 @@ string ArbolH::obtenerCodigo(char caracter)
     }
     return codigo;
 }
-string ArbolH::cifrar(string sec)
+string ArbolH::cifrar(list<char>sec)
 {
+    list<char>::iterator itrsec=sec.begin();
     string cifrado;
-    for (int i = 0; i < sec.size(); ++i)
+    for (;itrsec!=sec.end();itrsec++)
     {
-        cifrado += this->obtenerCodigo(sec[i]);
+        cifrado += this->obtenerCodigo(*itrsec);
     }
     int tama = cifrado.size() % 8;
     if(tama != 0){

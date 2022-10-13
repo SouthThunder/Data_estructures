@@ -8,11 +8,13 @@
 using namespace std;
 	list <list<char>> lsec;
     list <string>lid;
+    list <char> code;
 	int adenina;
 	int citosina;
 	int guanina;
 	int timina;
 	int uracilo;
+
 
 Secuencia::Secuencia(){
 
@@ -71,64 +73,55 @@ bool ver(char var, vector<char>vec){
 	return true;
 }
 
-void Secuencia::setBases(){
-	list<list<char>>::iterator itrsec=lsec.begin();
-	for(;itrsec!=lsec.end();itrsec++){
-		list<char> var=*itrsec;
-		list<char>::iterator itrvar=var.begin();
-		for(;itrvar!=var.end();itrvar++){
-			if(*itrvar=='A'){
-				adenina++;
-			}
-			else if(*itrvar=='C'){
-				citosina++;
-			}
-			else if(*itrvar=='G'){
-				guanina++;
-			}
-			else if(*itrvar=='T'){
-				timina++;
-			}
-			else if(*itrvar=='U'){
-				uracilo++;
-			}	
+bool Secuencia::search(vector<char> vec, char dato){
+	bool cond=false;
+	for(int i=0;i<vec.size();i++){
+		if(vec[i]==dato){
+			cond=true;
 		}
 	}
+	return cond;
 }
 
-void Secuencia::cifrar(){
-	vector <char> test;
-	vector<long>test2;
-	int i=0;
-	setBases();
-	if(adenina!=0){
-		test.push_back('A');
-		test2.push_back(adenina);
-		i++;
+vector<char> Secuencia::fill(){
+	vector<char> vec;
+	list<char>::iterator itrcode=code.begin();
+	for(;itrcode!=code.end();itrcode++){
+		if(vec.size()==0){
+			vec.push_back(*itrcode);
+		}
+		else{
+			if(!search(vec,*itrcode)){
+				vec.push_back(*itrcode);
+			}
+		}
 	}
-	if(citosina!=0){
-		test.push_back('C');
-		test2.push_back(citosina);
-		i++;
-	}
-	if(guanina!=0){
-		test.push_back('G');
-		test2.push_back(guanina);
-		i++;
-	}
-	if(timina!=0){
-		test.push_back('T');
-		test2.push_back(timina);
-		i++;
-	}
-	if(uracilo!=0){
-		test.push_back('U');
-		test2.push_back(uracilo);
-		i++;
-	}
+	return vec;
+}
 
-	arbol->generarArbol(test, test2, i);
+vector<long> Secuencia::frecuencia(vector<char>ref){
+	vector<long> vec;
+	list<char>::iterator itrcode;
+	int contador;
+	for(int i=0;i<ref.size();i++){
+		for(itrcode=code.begin();itrcode!=code.end();itrcode++){
+			if(ref[i]==*itrcode){
+				contador++;
+			}
+		}
+		vec.push_back(contador);
+		contador=0;
+	}
+	return vec;
+}
+
+
+void Secuencia::cifrar(){
+	vector<char>datos=fill();
+	vector<long>frecuencias=frecuencia(datos);
+	arbol->generarArbol(datos, frecuencias);
 	arbol->imprimirCodigos();
+	//cout<<arbol->cifrar(code)<<endl;
 }
 
 
@@ -466,6 +459,22 @@ void Secuencia::enmascarar(string val_sec)
 	contador=0;
 }
 
+
+void Secuencia::auxcargar(string file){
+	string line;
+	ifstream input;
+	char aux;
+	input.open(file, ios::in);
+	if(input.fail()){
+		cout << "El archivo proporcionado no se pudo abrir, revise el nombre o los permisos" << endl;
+	}
+	else{
+		while(input.eof()==false){
+			input>>aux;
+			code.push_back(aux);
+		}
+	}
+}
 
 
 

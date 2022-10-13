@@ -125,6 +125,7 @@ void imp()
 
 void afile(string file)
 {
+	secuen.auxcargar(file);
 	secuen.CargarSecuencia(file);
 }
 
@@ -214,6 +215,7 @@ void testing(){
 	}
 	else{
 		secuen.cifrar();
+
 	}
 }
 
@@ -236,6 +238,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 					else
 					{
 						cvar=last;
+
 						afile(last);
 					}
 				}
