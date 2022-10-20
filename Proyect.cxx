@@ -21,7 +21,7 @@ struct
 	std::string es_subsecuencia="es_subsecuencia";
 	std::string enmascarar="enmascarar";
 	std::string guardar="guardar";
-	string test="test";
+	string test="codificar";
 }opc;
 
 
@@ -209,12 +209,12 @@ void guardar(string last){
 }
 
 
-void testing(){
+void testing(string file){
 	if(secuen.check()){
 		cout << "No hay secuencias cargadas en memoria" << endl;
 	}
 	else{
-		secuen.cifrar();
+		secuen.cifrar(file);
 
 	}
 }
@@ -238,7 +238,6 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 					else
 					{
 						cvar=last;
-
 						afile(last);
 					}
 				}
@@ -314,7 +313,8 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
 					else{
-						testing();
+						cvar=last;
+						testing(last);
 					}
 				}
 				else if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")

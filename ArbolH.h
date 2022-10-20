@@ -19,6 +19,7 @@ public:
     struct comparar;
     void guardarCodigos(NodoH *inicio, string str);
     void imprimirCodigos();
+    vector<pair<char,string>> getCodigos();
     string obtenerCodigo(char caracter);
     string cifrar(list<char> secunecia);
     string desCifrar(string cif, long longiSec);

@@ -4,6 +4,8 @@
 #include <fstream>
 #include <list>
 #include "ArbolH.h"
+#include <utility>
+#include <bitset>
 
 using namespace std;
 	list <list<char>> lsec;
@@ -83,16 +85,38 @@ bool Secuencia::search(vector<char> vec, char dato){
 	return cond;
 }
 
+vector<char> Secuencia::fill_fuck(){
+	vector <char> aux;
+	list<list<char>>::iterator itrcode=lsec.begin();
+	for(;itrcode!=lsec.end();itrcode++){
+		list<char>idk=*itrcode;
+		list<char>::iterator itridk=idk.begin();
+		for(;itridk!=idk.end();itridk++){
+			aux.push_back(*itridk);
+		}
+	}
+	return aux;
+}
+
 vector<char> Secuencia::fill(){
 	vector<char> vec;
-	list<char>::iterator itrcode=code.begin();
-	for(;itrcode!=code.end();itrcode++){
+	list <char> aux;
+	list<list<char>>::iterator itrcode=lsec.begin();
+	for(;itrcode!=lsec.end();itrcode++){
+		list<char>idk=*itrcode;
+		list<char>::iterator itridk=idk.begin();
+		for(;itridk!=idk.end();itridk++){
+			aux.push_back(*itridk);
+		}
+	}
+	list<char>::iterator itraux=aux.begin();
+	for(;itraux!=aux.end();itraux++){
 		if(vec.size()==0){
-			vec.push_back(*itrcode);
+			vec.push_back(*itraux);
 		}
 		else{
-			if(!search(vec,*itrcode)){
-				vec.push_back(*itrcode);
+			if(!search(vec,*itraux)){
+				vec.push_back(*itraux);
 			}
 		}
 	}
@@ -115,13 +139,215 @@ vector<long> Secuencia::frecuencia(vector<char>ref){
 	return vec;
 }
 
+int Secuencia::freq(char dato, vector<char> fuck){
+	int contador;
+	for(int i=0;i<fuck.size();i++){
+		if(fuck[i]==dato){
+			contador++;
+		}
+	}
+	return contador;
+}
 
-void Secuencia::cifrar(){
+string Secuencia::toBinary(int n){
+	string r;
+	while (n != 0){
+        r += ( n % 2 == 0 ? "0" : "1" );
+        n /= 2;
+    }
+    return r;
+}
+
+int Secuencia::longi(list<char>idk){
+	int contador=0;
+	list<char>::iterator itridk=idk.begin();
+	for(;itridk!=idk.end();itridk++){
+		contador++;
+	}
+	return contador;
+}
+
+
+bitset<16> Secuencia::first(char aux){
+	bitset<16>bs1(toBinary(int(aux)));
+	return bs1;
+}
+
+vector<bitset<8>> Secuencia::second(vector<pair<char,string>> codigos){
+	vector<bitset<8>>bs1;
+	vector<pair<char,string>>::iterator it=codigos.begin();
+	for(;it!=codigos.end();it++){
+		bitset<8>test(toBinary(stoi(it->second)));
+		bs1.push_back(test);
+	}
+	return bs1;
+}
+
+vector<bitset<64>> Secuencia::secondp(vector<pair<char,string>> codigos){
+	vector<bitset<64>>bs1;
+	vector<pair<char,string>>::iterator it=codigos.begin();
+	for(;it!=codigos.end();it++){
+		int shit=freq(it->first, fill_fuck());
+		bitset<64>hptas(toBinary(shit));
+		bs1.push_back(hptas);
+	}
+	return bs1;
+}
+
+bitset<36> Secuencia::tercero(int size){
+	bitset<36>bs1(toBinary(size));
+	return bs1;
+}
+
+vector<bitset<64>> Secuencia::quinto(){
+	vector<bitset<64>>bs1;
+	list<list<char>>::iterator itrsec;
+	for(itrsec=lsec.begin();itrsec!=lsec.end();itrsec++){
+		list<char>var=*itrsec;
+		int ar=longi(var);
+		bitset<64>ak(toBinary(ar));
+		bs1.push_back(ak);
+	}
+	return bs1;
+}
+
+vector<bitset<16>> Secuencia::sexto(){
+	vector<bitset<16>>bs1;
+	int contador=0;
+	list<list<char>>::iterator itrsec=lsec.begin();
+	for(;itrsec!=lsec.end();itrsec++){
+		list<char>var=*itrsec;
+		list<char>::iterator itrvar=var.begin();
+		while(*itrvar!='\n'){
+			contador++;
+			itrvar++;
+		}
+		bitset<16>penaux(toBinary(contador));
+		bs1.push_back(penaux);
+		contador=0;
+	}
+	return bs1;
+}
+
+vector<string> Secuencia::binary_code(){
+	vector<string> r;
+	list<list<char>>::iterator itrsec;
+	for(itrsec=lsec.begin();itrsec!=lsec.end();itrsec++){
+		list<char>var=*itrsec;
+		string cod=arbol->cifrar(var);
+		r.push_back(cod);
+	}
+	return r;
+}
+
+
+
+void Secuencia::cifrar(string file){
 	vector<char>datos=fill();
 	vector<long>frecuencias=frecuencia(datos);
 	arbol->generarArbol(datos, frecuencias);
 	arbol->imprimirCodigos();
-	//cout<<arbol->cifrar(code)<<endl;
+	vector<pair<char,string>> codigos=arbol->getCodigos();
+	char aux='0'+ datos.size();
+
+	bitset<16> bs1=first(aux); //Primero
+	cout << "This is N: "  << bs1 << endl;
+
+	vector<bitset<8>> bs2=second(codigos); //Segundo
+	vector<bitset<64>> bs2p=secondp(codigos); //Segundop
+	cout << "This is C:" << endl;
+	for(int i=0;i<bs2.size();i++){
+		cout << bs2[i] << ", " << bs2p[i] <<endl;
+	}
+
+	bitset<36>bs3=tercero(lid.size()); //Tercero
+	cout << "This is ns" << endl;
+	cout << bs3 << endl;
+
+
+	vector<bitset<16>>bs4; //cuarto
+	vector<string>bs4as;
+	cout << "This is li + sij: " << endl;
+	list<string>::iterator itrlid=lid.begin();
+	for(;itrlid!=lid.end();itrlid++){
+		string a=*itrlid;
+		bs4as.push_back(a);
+		bitset<16> bs4a(toBinary(a.size()));
+		bs4.push_back(bs4a);
+	}
+	for(int i=0;i<bs4.size();i++){
+		cout << bs4[i] << ", ";
+		for(int j=0;j<bs4as[i].size();j++){
+			bitset<8> as(toBinary(bs4as[i][j]));
+			cout << as <<" ";
+		}
+		cout << endl;
+	}
+
+
+	vector<bitset<64>>bs5=quinto(); //quinto
+	cout << "This is Wi:" << endl;
+	for(int i=0;i<bs5.size();i++){
+		cout << bs5[i] << endl;
+	}
+
+	cout << "This is xi:" << endl; //Sexto
+	vector<bitset<16>>bs6=sexto();
+	for(int i=0;i<bs6.size();i++){
+		cout << bs6[i] << endl;
+	}
+	
+
+	cout << "This is Binary_code" << endl;
+	vector<string> cifr=binary_code();
+	fabin(file,bs1,bs2,bs2p,bs3,bs4,bs4as,bs5,bs6,cifr);
+}
+
+void Secuencia::fabin(string file, bitset<16> bs1, vector<bitset<8>> bs2, vector<bitset<64>> bs2p, bitset<36>bs3, vector<bitset<16>>bs4, vector<string>bs4as, vector<bitset<64>>bs5, vector<bitset<16>>bs6, vector<string> cifr){
+	ofstream output;
+	output.open(file, ios::out);
+	if(output.fail()){
+		cout << "El archivo proporcionado no se pudo abrir porfavor revise el nombre o los permisos del arhivo" << endl;
+	}
+	else{
+		output<<bs1;
+		for(int i=0;i<bs2.size();i++){
+		output << bs2[i] << "" << bs2p[i];
+		}
+		output<<bs3;
+		for(int i=0;i<bs4.size();i++){
+		output << bs4[i];
+			for(int j=0;j<bs4as[i].size();j++){
+				bitset<8> as(toBinary(bs4as[i][j]));
+				output << as;
+			}
+		}
+		for(int i=0;i<bs5.size();i++){
+			output << bs5[i];
+			output << bs6[i];
+			output<<cifr[i];
+		}
+		cout << "Archivo guardado correctamente" << endl;
+	}
+}
+
+
+void decifrar(string file){
+	ifstream input;
+	input.open(file, ios::in);
+	if(input.fail()){
+		cout << "Imposible leer el archivo, por favor revise los permisos o el nombre en cuestion" << endl;
+	}
+	else{
+		while(!input.eof()){
+			char aux;
+			string bit;
+			for(int i=0;i<16;i++){
+				input>>aux;
+				bit.push_back(aux);
+			}
+		}
+	}
 }
 
 

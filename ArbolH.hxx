@@ -20,7 +20,6 @@ void ArbolH::generarArbol(vector<char>dato, vector<long>freq)
     NodoH *left, *right, *top;
 
     priority_queue<NodoH *, vector<NodoH *>, comparar> minHeap;
-    priority_queue<NodoH *, vector<NodoH *>, comparar> minAux;
     for(int i = 0; i < minHeap.size();++i){
         minHeap.pop();
     }
@@ -46,8 +45,6 @@ void ArbolH::generarArbol(vector<char>dato, vector<long>freq)
     aux=minHeap.top();
     init = aux;
     guardarCodigos(init, "");
-    
-
 }
 
 
@@ -70,6 +67,11 @@ void ArbolH::imprimirCodigos()
         cout << it->first << ": " << it->second << endl;
     }
 }
+
+vector<pair<char,string>> ArbolH::getCodigos(){
+    return codigos;
+}
+
 string ArbolH::obtenerCodigo(char caracter)
 {
     string codigo = "";
