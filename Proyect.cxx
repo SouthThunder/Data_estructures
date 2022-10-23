@@ -22,6 +22,7 @@ struct
 	std::string enmascarar="enmascarar";
 	std::string guardar="guardar";
 	string test="codificar";
+	string deci="decifrar";
 }opc;
 
 
@@ -215,7 +216,15 @@ void testing(string file){
 	}
 	else{
 		secuen.cifrar(file);
+	}
+}
 
+void des(string file){
+	if(secuen.check()){
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	else{
+		secuen.decifrar(file);
 	}
 }
 
@@ -313,11 +322,18 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
 					else{
-						cvar=last;
 						testing(last);
 					}
 				}
-				else if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
+				if(first==opc.deci){
+					if(last==""){
+						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
+					}
+					else{
+						des(last);
+					}
+				}
+				else if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!=opc.test && first!=opc.deci && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
 				{
 					std::cout << "Comando no reconocido, porfavor revisar la lista de comandos permitidos e intentelo otra vez" << '\n';
 				}

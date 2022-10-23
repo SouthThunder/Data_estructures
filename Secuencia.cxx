@@ -111,11 +111,11 @@ vector<char> Secuencia::fill(){
 	}
 	list<char>::iterator itraux=aux.begin();
 	for(;itraux!=aux.end();itraux++){
-		if(vec.size()==0){
+		if(vec.empty()){
 			vec.push_back(*itraux);
 		}
 		else{
-			if(!search(vec,*itraux)){
+			if(!search(vec,*itraux) &&*itraux!='\n'){
 				vec.push_back(*itraux);
 			}
 		}
@@ -149,13 +149,25 @@ int Secuencia::freq(char dato, vector<char> fuck){
 	return contador;
 }
 
-string Secuencia::toBinary(int n){
-	string r;
-	while (n != 0){
-        r += ( n % 2 == 0 ? "0" : "1" );
-        n /= 2;
+string Secuencia::Reverse(string str)
+{
+    string a;
+    for(int i=str.size()-1 ; i>=0 ; i--)
+    a+=str[i];
+    return a;
+}
+
+string Secuencia::toBinary(int num){
+    string str;
+      while(num){
+      if(num & 1) 
+        str+='1';
+      else
+        str+='0';
+      num>>=1;
     }
-    return r;
+    string aux=Reverse(str);
+      return aux;
 }
 
 int Secuencia::longi(list<char>idk){
@@ -168,8 +180,8 @@ int Secuencia::longi(list<char>idk){
 }
 
 
-bitset<16> Secuencia::first(char aux){
-	bitset<16>bs1(toBinary(int(aux)));
+bitset<16> Secuencia::first(int aux){
+	bitset<16>bs1(toBinary(aux));
 	return bs1;
 }
 
@@ -177,7 +189,7 @@ vector<bitset<8>> Secuencia::second(vector<pair<char,string>> codigos){
 	vector<bitset<8>>bs1;
 	vector<pair<char,string>>::iterator it=codigos.begin();
 	for(;it!=codigos.end();it++){
-		bitset<8>test(toBinary(stoi(it->second)));
+		bitset<8>test(toBinary(int(it->first)));
 		bs1.push_back(test);
 	}
 	return bs1;
@@ -204,7 +216,7 @@ vector<bitset<64>> Secuencia::quinto(){
 	list<list<char>>::iterator itrsec;
 	for(itrsec=lsec.begin();itrsec!=lsec.end();itrsec++){
 		list<char>var=*itrsec;
-		int ar=longi(var);
+		int ar=longi(var)-1;
 		bitset<64>ak(toBinary(ar));
 		bs1.push_back(ak);
 	}
@@ -246,15 +258,15 @@ void Secuencia::cifrar(string file){
 	vector<char>datos=fill();
 	vector<long>frecuencias=frecuencia(datos);
 	arbol->generarArbol(datos, frecuencias);
-	arbol->imprimirCodigos();
+	//arbol->imprimirCodigos();
 	vector<pair<char,string>> codigos=arbol->getCodigos();
-	char aux='0'+ datos.size();
 
-	bitset<16> bs1=first(aux); //Primero
-	cout << "This is N: "  << bs1 << endl;
+	bitset<16> bs1=first(datos.size()); //Primero
+	//cout << "This is N: "  << bs1 << endl;
 
 	vector<bitset<8>> bs2=second(codigos); //Segundo
 	vector<bitset<64>> bs2p=secondp(codigos); //Segundop
+
 	cout << "This is C:" << endl;
 	for(int i=0;i<bs2.size();i++){
 		cout << bs2[i] << ", " << bs2p[i] <<endl;
@@ -332,7 +344,7 @@ void Secuencia::fabin(string file, bitset<16> bs1, vector<bitset<8>> bs2, vector
 }
 
 
-void decifrar(string file){
+void Secuencia::decifrar(string file){
 	ifstream input;
 	input.open(file, ios::in);
 	if(input.fail()){
@@ -341,11 +353,15 @@ void decifrar(string file){
 	else{
 		while(!input.eof()){
 			char aux;
-			string bit;
+
+			string byte;
 			for(int i=0;i<16;i++){
 				input>>aux;
-				bit.push_back(aux);
+				byte.push_back(aux);
 			}
+			cout << "This is byte: " << byte << endl;
+			int n=stoi(byte,0,2);
+			cout << "This is number: " << n << endl;
 		}
 	}
 }

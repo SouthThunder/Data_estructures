@@ -33,10 +33,12 @@ public:
 	void enmascarar(std::string val_sec);
 	void guardar_secuencia(std::string file);
 	void cifrar(std::string file);
-	bitset<16> first(char aux);
+	bitset<16> first(int aux);
+	std::string Reverse(std::string str);
 	std::vector<bitset<8>> second(vector<pair<char,string>> codigos);
 	std::vector<bitset<64>> secondp(vector<pair<char,string>> codigos);
 	bitset<36> tercero(int size);
+	void decifrar(std::string file);
 	vector<bitset<64>> quinto();
 	vector<bitset<16>> sexto();
 	std::vector<std::string> binary_code();
