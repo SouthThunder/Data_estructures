@@ -8,55 +8,34 @@
 #include <bitset>
 
 using namespace std;
-	list <list<char>> lsec;
-    list <string>lid;
-    list <char> code;
-	int adenina;
-	int citosina;
-	int guanina;
-	int timina;
-	int uracilo;
-
 
 Secuencia::Secuencia(){
-
 }
 
-bool Secuencia::check()
-{
-	if(lsec.empty())
-	{
+bool Secuencia::check(){
+	if(lsec.empty()){
 		return true;
 	}
-
 	return false;
 }
 
-
-
-int Secuencia::sec_size()
-{
+int Secuencia::sec_size(){
 	return lsec.size();
 }
 
-
-int Secuencia::id_size()
-{
+int Secuencia::id_size(){
 	return lid.size();
 }
 
 
-void Secuencia::ObtenerSecuencia()
-{
+void Secuencia::ObtenerSecuencia(){
 	list<list<char>>::iterator itrsec=lsec.begin();
 	list<string>::iterator itrid=lid.begin();
-	for(;itrsec!=lsec.end();itrsec++,itrid++)
-	{
+	for(;itrsec!=lsec.end();itrsec++,itrid++){
 		list<char>var=*itrsec;
 		list<char>::iterator itrvar=var.begin();
 		cout << ">" << *itrid << endl;
-		for(;itrvar!=var.end();itrvar++)
-		{
+		for(;itrvar!=var.end();itrvar++){
 			cout << *itrvar;
 		}
 		cout << endl;
@@ -206,8 +185,8 @@ vector<bitset<64>> Secuencia::secondp(vector<pair<char,string>> codigos){
 	return bs1;
 }
 
-bitset<36> Secuencia::tercero(int size){
-	bitset<36>bs1(toBinary(size));
+bitset<32> Secuencia::tercero(int size){
+	bitset<32>bs1(toBinary(size));
 	return bs1;
 }
 
@@ -243,43 +222,41 @@ vector<bitset<16>> Secuencia::sexto(){
 
 vector<string> Secuencia::binary_code(){
 	vector<string> r;
+	list<char>aux;
 	list<list<char>>::iterator itrsec;
 	for(itrsec=lsec.begin();itrsec!=lsec.end();itrsec++){
 		list<char>var=*itrsec;
-		string cod=arbol->cifrar(var);
+		list<char>::iterator itrvar=var.begin();
+		for(;itrvar!=var.end();itrvar++){
+			if(*itrvar!='\n'){
+				aux.push_back(*itrvar);
+			}
+		}
+		string cod=arbol->cifrar(aux);
+		aux.clear();
 		r.push_back(cod);
 	}
 	return r;
 }
 
 
-
-void Secuencia::cifrar(string file){
+void Secuencia::generar(){
 	vector<char>datos=fill();
 	vector<long>frecuencias=frecuencia(datos);
 	arbol->generarArbol(datos, frecuencias);
-	//arbol->imprimirCodigos();
+}
+
+
+
+void Secuencia::cifrar(string file){
+	vector<char>datos=fill();
 	vector<pair<char,string>> codigos=arbol->getCodigos();
-
 	bitset<16> bs1=first(datos.size()); //Primero
-	//cout << "This is N: "  << bs1 << endl;
-
 	vector<bitset<8>> bs2=second(codigos); //Segundo
 	vector<bitset<64>> bs2p=secondp(codigos); //Segundop
-
-	cout << "This is C:" << endl;
-	for(int i=0;i<bs2.size();i++){
-		cout << bs2[i] << ", " << bs2p[i] <<endl;
-	}
-
-	bitset<36>bs3=tercero(lid.size()); //Tercero
-	cout << "This is ns" << endl;
-	cout << bs3 << endl;
-
-
+	bitset<32>bs3=tercero(lid.size()); //Tercero
 	vector<bitset<16>>bs4; //cuarto
 	vector<string>bs4as;
-	cout << "This is li + sij: " << endl;
 	list<string>::iterator itrlid=lid.begin();
 	for(;itrlid!=lid.end();itrlid++){
 		string a=*itrlid;
@@ -287,82 +264,151 @@ void Secuencia::cifrar(string file){
 		bitset<16> bs4a(toBinary(a.size()));
 		bs4.push_back(bs4a);
 	}
-	for(int i=0;i<bs4.size();i++){
-		cout << bs4[i] << ", ";
-		for(int j=0;j<bs4as[i].size();j++){
-			bitset<8> as(toBinary(bs4as[i][j]));
-			cout << as <<" ";
-		}
-		cout << endl;
-	}
-
-
 	vector<bitset<64>>bs5=quinto(); //quinto
-	cout << "This is Wi:" << endl;
-	for(int i=0;i<bs5.size();i++){
-		cout << bs5[i] << endl;
-	}
-
-	cout << "This is xi:" << endl; //Sexto
 	vector<bitset<16>>bs6=sexto();
-	for(int i=0;i<bs6.size();i++){
-		cout << bs6[i] << endl;
-	}
-	
-
-	cout << "This is Binary_code" << endl;
 	vector<string> cifr=binary_code();
 	fabin(file,bs1,bs2,bs2p,bs3,bs4,bs4as,bs5,bs6,cifr);
 }
 
-void Secuencia::fabin(string file, bitset<16> bs1, vector<bitset<8>> bs2, vector<bitset<64>> bs2p, bitset<36>bs3, vector<bitset<16>>bs4, vector<string>bs4as, vector<bitset<64>>bs5, vector<bitset<16>>bs6, vector<string> cifr){
+void Secuencia::fabin(string file, bitset<16> bs1, vector<bitset<8>> bs2, vector<bitset<64>> bs2p, bitset<32>bs3, vector<bitset<16>>bs4, vector<string>bs4as, vector<bitset<64>>bs5, vector<bitset<16>>bs6, vector<string> cifr){
 	ofstream output;
+	string tam=bs3.to_string();
 	output.open(file, ios::out);
 	if(output.fail()){
 		cout << "El archivo proporcionado no se pudo abrir porfavor revise el nombre o los permisos del arhivo" << endl;
 	}
 	else{
-		output<<bs1;
-		for(int i=0;i<bs2.size();i++){
-		output << bs2[i] << "" << bs2p[i];
-		}
-		output<<bs3;
-		for(int i=0;i<bs4.size();i++){
-		output << bs4[i];
-			for(int j=0;j<bs4as[i].size();j++){
-				bitset<8> as(toBinary(bs4as[i][j]));
-				output << as;
+		for(int n=0;n<stoi(tam,0,2);n++){
+			output<<bs1; // -> n
+			for(int i=0;i<bs2.size();i++){
+				output << bs2[i] << bs2p[i]; // -> ci & fi
 			}
-		}
-		for(int i=0;i<bs5.size();i++){
-			output << bs5[i];
-			output << bs6[i];
-			output<<cifr[i];
+			output<<bs3; // fin constantes -> ns
+			output << bs4[n];	//inicio variables -> li
+			for(int j=0;j<bs4as[n].size();j++){
+				bitset<8> as(toBinary(bs4as[n][j])); 
+				output << as;	// -> sij
+			}
+			if(n==stoi(tam,0,2)-1){
+				output <<bs5[n] << bs6[n] << cifr[n];
+			}
+			else{
+				output <<bs5[n] << bs6[n] << cifr[n] << '\n';
+			}
+			
 		}
 		cout << "Archivo guardado correctamente" << endl;
 	}
 }
 
+void Secuencia::empcons(){
+	this->dec.n=0;
+	this->dec.ci.clear();
+	this->dec.fi.clear();
+	this->dec.ns=0;
+}
+
 
 void Secuencia::decifrar(string file){
 	ifstream input;
+	this->lid.clear();
+	this->lsec.clear();
 	input.open(file, ios::in);
+	int count=0;
 	if(input.fail()){
 		cout << "Imposible leer el archivo, por favor revise los permisos o el nombre en cuestion" << endl;
 	}
 	else{
 		while(!input.eof()){
+			empcons();
 			char aux;
-
 			string byte;
 			for(int i=0;i<16;i++){
 				input>>aux;
 				byte.push_back(aux);
 			}
-			cout << "This is byte: " << byte << endl;
-			int n=stoi(byte,0,2);
-			cout << "This is number: " << n << endl;
+			this->dec.n=stoi(byte,0,2);		//This is n
+			byte.clear();
+			for(int i=0;i<this->dec.n;i++){
+				for(int j=0;j<8;j++){
+					input>>aux;
+					byte.push_back(aux);
+				}
+				this->dec.ci.push_back(stoi(byte,0,2)); // this is CI
+				byte.clear();
+				for(int j=0;j<64;j++){
+					input>>aux;
+					byte.push_back(aux);
+				}
+				this->dec.fi.push_back(stoi(byte,0,2)); // This is FI
+				byte.clear();
+			}
+			arbol->generarArbol(this->dec.ci,this->dec.fi); 	//creating the tree
+			byte.clear();
+			for(int i=0;i<32;i++){
+				input>>aux;
+				byte.push_back(aux);
+			}
+			this->dec.ns=stoi(byte,0,2);		//This is NS
+			byte.clear();
+			for(int i=0;i<16;i++){
+				input>>aux;
+				byte.push_back(aux);
+			}
+			this->dec.li.push_back(stoi(byte,0,2));	// This is LI
+			byte.clear();
+			vector<char>auxchar;
+			for(int i=0;i<this->dec.li[count];i++){
+				for(int j=0;j<8;j++){
+					input>>aux;
+					byte.push_back(aux);
+				}
+				auxchar.push_back(stoi(byte,0,2));
+				byte.clear();
+			}
+
+			this->dec.sij.push_back(auxchar);	// This is sij
+			string names;
+			for(int i=0;i<this->dec.sij[count].size();i++){
+				names+=this->dec.sij[count][i];
+			}
+			this->lid.push_back(names);
+			byte.clear();
+			for(int i=0;i<64;i++){
+				input>>aux;
+				byte.push_back(aux);
+			}
+			this->dec.wi.push_back(stoi(byte,0,2));	//This is wi
+			byte.clear();
+			for(int i=0;i<16;i++){
+				input>>aux;
+				byte.push_back(aux);
+			}
+			this->dec.xi.push_back(stoi(byte,0,2));	//This is xi
+			byte.clear();
+			list<char>laux;
+			string auxcode;
+			getline(input,auxcode,'\n');
+			for(unsigned int i=0;i<auxcode.size();i++){
+				laux.push_back(auxcode[i]);
+			}
+			unsigned int fuck=1;
+			string res=arbol->desCifrar(laux);
+			laux.clear();
+			for(unsigned int i=0;i<res.size();i++,fuck++){
+				if(this->dec.xi[count]+1==fuck){
+					laux.push_back('\n');
+					fuck=0;
+				}else{
+					laux.push_back(res[i]);
+				}
+			}
+			laux.push_back('\n');
+			this->dec.binary.push_back(laux);
+			count++;
 		}
+		this->lsec=this->dec.binary;
+		cout << "El archivo se decodifico correctamente" << endl;
 	}
 }
 
@@ -700,25 +746,6 @@ void Secuencia::enmascarar(string val_sec)
 	}
 	contador=0;
 }
-
-
-void Secuencia::auxcargar(string file){
-	string line;
-	ifstream input;
-	char aux;
-	input.open(file, ios::in);
-	if(input.fail()){
-		cout << "El archivo proporcionado no se pudo abrir, revise el nombre o los permisos" << endl;
-	}
-	else{
-		while(input.eof()==false){
-			input>>aux;
-			code.push_back(aux);
-		}
-	}
-}
-
-
 
 
 void Secuencia::CargarSecuencia(string file)

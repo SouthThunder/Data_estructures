@@ -100,23 +100,21 @@ string ArbolH::cifrar(list<char>sec)
     }
     return cifrado;
 }
-string ArbolH::desCifrar(string sec, long longiSec)
+string ArbolH::desCifrar(list<char>sec)
 {
     NodoH *nodo = init;
     string desCifrado = "";
     int contador = 0;
-    for (int i = 0; i < sec.size() +1; i++)
+    list<char>::iterator itrsec=sec.begin();
+    for (;itrsec!=sec.end();itrsec++)
     {
         if (nodo->esHoja())
         {
             desCifrado += nodo->obtenerDato();
             nodo = init;
             contador++;
-            if(contador == longiSec){
-                break;
-            }
         }
-        if (sec[i] == '1')
+        if (*itrsec == '1')
         {
             nodo = nodo->obtenerHijoDer();
         }

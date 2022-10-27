@@ -126,8 +126,8 @@ void imp()
 
 void afile(string file)
 {
-	secuen.auxcargar(file);
 	secuen.CargarSecuencia(file);
+	secuen.generar();
 }
 
 void hist(string last)
@@ -220,12 +220,7 @@ void testing(string file){
 }
 
 void des(string file){
-	if(secuen.check()){
-		cout << "No hay secuencias cargadas en memoria" << endl;
-	}
-	else{
-		secuen.decifrar(file);
-	}
+	secuen.decifrar(file);
 }
 
 

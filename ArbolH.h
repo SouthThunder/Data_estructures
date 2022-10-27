@@ -22,7 +22,7 @@ public:
     vector<pair<char,string>> getCodigos();
     string obtenerCodigo(char caracter);
     string cifrar(list<char> secunecia);
-    string desCifrar(string cif, long longiSec);
+    string desCifrar(list<char>sec);
     NodoH * deCodificar(NodoH *nodo, char dir, int &cont, string &des);
     NodoH * getRaiz();
 };
