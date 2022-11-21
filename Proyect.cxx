@@ -23,26 +23,28 @@ struct
 	std::string guardar="guardar";
 	string test="codificar";
 	string deci="decifrar";
+	string low_cost="ruta_mas_corta";
+	string base_remota="base_remota";
 }opc;
 
 
-void comand(std::string &first, std::string &last, string &input)
+void comand(std::string &first, std::string &last, string &input, vector<char>&params)
 {
 	std::cout << "$";
 	std::getline(std::cin,input);
 	std::stringstream X(input);
 	int i=0;
-	for(std::string line;std::getline(X,line, ' ');)
+	for(string line;getline(X,line, ' ');i++)
 	{
-		if(i==0)
-		{
+		if(i==0){
 			first=line;
 		}
-		if(i==1)
-		{
+		else if(i==1){
 			last=line;
 		}
-		i++;
+		else{
+			params.push_back(line[0]);
+		}
 	}
 }
 
@@ -127,7 +129,6 @@ void imp()
 void afile(string file)
 {
 	secuen.CargarSecuencia(file);
-	secuen.generar();
 }
 
 void hist(string last)
@@ -223,24 +224,30 @@ void des(string file){
 	secuen.decifrar(file);
 }
 
+void low_cost(vector<char>params, string last){
+	if(secuen.check()){
+		cout << "No hay secuencias cargadas en memoria" << endl;
+	}
+	else{
+		secuen.ruta_mas_corta(last, params);
+	}
+}
 
 
 
-void interface(bool &cond, string &first, string &last, string &line, string &cvar)
+
+void interface(bool &cond, string &first, string &last, string &line, string &cvar, vector<char>&params)
 {
 	system("CLS");
-				if(first=="help" || first=="Help" || first=="HELP")
-				{
+				if(first=="help" || first=="Help" || first=="HELP"){
 					user_helper(first, last, line);
 				}
 				if(first==opc.cargar)
 				{
-					if(last=="")
-					{
+					if(last==""){
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
-					else
-					{
+					else{
 						cvar=last;
 						afile(last);
 					}
@@ -269,7 +276,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 				}
 				if(first==opc.histograma)
 				{
-					if(last=="")
+					if(last=="" || !params.empty())
 					{
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
@@ -280,7 +287,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 				}
 				if(first==opc.es_subsecuencia)
 				{
-					if(last=="")
+					if(last=="" || !params.empty())
 					{
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
@@ -291,7 +298,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 				}
 				if(first==opc.enmascarar)
 				{
-					if(last=="")
+					if(last=="" || !params.empty())
 					{
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
@@ -302,18 +309,17 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 				}
 				if(first==opc.guardar)
 				{
-					if(last=="")
+					if(last=="" || !params.empty())
 					{
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
 					else
 					{
 						guardar(last);
-
 					}
 				}
 				if(first==opc.test){
-					if(last==""){
+					if(last=="" || !params.empty()){
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
 					else{
@@ -321,14 +327,38 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 					}
 				}
 				if(first==opc.deci){
-					if(last==""){
+					if(last=="" || !params.empty()){
 						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
 					}
 					else{
 						des(last);
 					}
 				}
-				else if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar && first!=opc.test && first!=opc.deci && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
+				if(first==opc.low_cost){
+					if(last=="" || params.empty()){
+						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
+					}else{
+						if(params.size()!=4){
+							cout << "Los parametros no coinciden con el comando especificado, porfavor asegurese de que sean 4 Parametros" << endl;
+						}
+						else{
+							low_cost(params, last);
+						}
+					}
+				}
+				if(first==opc.base_remota){
+					if(last=="" || params.empty()){
+						cout << "Parametro adicional esperado, porfavor escriba help para ver los comandos permitidos" << endl;
+					}else{
+						if(params.size()!=2){
+							cout << "Los parametros no coinciden con el comando especificado, porfavor asegurese de que sean 2 Parametros" << endl;
+						}
+						else{
+
+						}
+					}
+				}
+				else if(first!=opc.cargar && first!=opc.conteo && first!=opc.listar_secuencias && first!=opc.histograma && first!=opc.es_subsecuencia && first!=opc.enmascarar && first!=opc.guardar &&first!=opc.low_cost && first!=opc.base_remota && first!=opc.test && first!=opc.deci && first!="salir" && first!="Salir" && first!="SALIR" &&first!="help" && first!="Help" && first!="HELP")
 				{
 					std::cout << "Comando no reconocido, porfavor revisar la lista de comandos permitidos e intentelo otra vez" << '\n';
 				}
@@ -342,7 +372,7 @@ void interface(bool &cond, string &first, string &last, string &line, string &cv
 					first="";
 					last="";
 					line="";
-					comand(first,last, line);
+					comand(first,last, line, params);
 				}
 }
 
@@ -358,13 +388,14 @@ int main()
 	std::cout << "Bienvenido al programa de manipulacion de codigo genetico " << std::endl;
 	std::cout << "----------------------------------------------------------" << std::endl;
 	std::cout << "Porfavor indique la funcion a realizar, si necesita ayuda digite ""help"" para mostrar la lista de funciones disponibles " << std::endl;
-	std::string first,last, line, cvar;
+	string first,last, line, cvar;
+	vector<char> params;
 	bool cond=true;
-	comand(first,last,line);
+	comand(first,last,line,params);
 	system("CLS");
 	while(cond)
 	{
-		interface(cond, first, last, line, cvar);
+		interface(cond, first, last, line, cvar, params);
 	}
 	return 0;
 }

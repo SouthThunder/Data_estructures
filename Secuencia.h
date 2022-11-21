@@ -7,6 +7,7 @@
 #include <vector>
 #include "NodoH.h"
 #include "ArbolH.h"
+#include "Grafo.h"
 #include <bitset>
 
 class Secuencia
@@ -42,14 +43,22 @@ public:
 	vector<bitset<64>> quinto();
 	vector<bitset<16>> sexto();
 	std::vector<std::string> binary_code();
+	void setIden();
 	void empcons();
+	void insertar_grafo(std::list<char>sec);
+	int indice(std::string id);
+	std::list<char>indice_secuencia(int cont);
+	double tranformacion(char ij, char xy);
+	void ruta_mas_corta(std::string id, std::vector<char>params);
 	void fabin(std::string file, bitset<16> bs1, std::vector<bitset<8>> bs2, std::vector<bitset<64>> bs2p, bitset<32>bs3, std::vector<bitset<16>>bs4, std::vector<string>bs4as, std::vector<bitset<64>>bs5, std::vector<bitset<16>>bs6, std::vector<std::string> cifr);
 protected:
 	int adenina, citosina, guanina, timina, uracilo;
 	NodoH *node;
 	ArbolH *arbol= new ArbolH();
+	Grafo<char> *grafo=new Grafo<char>();
 	std::list <std::string> lid;
 	std::list <std::list<char>> lsec;
+	std::vector<int>iden;
 	std::list <char> code;
 	struct{
 		int n;

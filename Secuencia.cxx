@@ -6,6 +6,8 @@
 #include "ArbolH.h"
 #include <utility>
 #include <bitset>
+#include <cstdlib>
+
 
 using namespace std;
 
@@ -105,7 +107,7 @@ vector<char> Secuencia::fill(){
 vector<long> Secuencia::frecuencia(vector<char>ref){
 	vector<long> vec;
 	list<char>::iterator itrcode;
-	int contador;
+	unsigned long contador;
 	for(int i=0;i<ref.size();i++){
 		for(itrcode=code.begin();itrcode!=code.end();itrcode++){
 			if(ref[i]==*itrcode){
@@ -178,7 +180,8 @@ vector<bitset<64>> Secuencia::secondp(vector<pair<char,string>> codigos){
 	vector<bitset<64>>bs1;
 	vector<pair<char,string>>::iterator it=codigos.begin();
 	for(;it!=codigos.end();it++){
-		int shit=freq(it->first, fill_fuck());
+		unsigned long shit=freq(it->first, fill_fuck());
+		cout << it->first << ": " << shit << endl;
 		bitset<64>hptas(toBinary(shit));
 		bs1.push_back(hptas);
 	}
@@ -250,10 +253,15 @@ void Secuencia::generar(){
 
 void Secuencia::cifrar(string file){
 	vector<char>datos=fill();
-	vector<pair<char,string>> codigos=arbol->getCodigos();
+	cout << "This is CI" << endl;
 	bitset<16> bs1=first(datos.size()); //Primero
+	vector<long>frecuencias=frecuencia(datos);
+	arbol->generarArbol(datos, frecuencias);
+	vector<pair<char,string>> codigos=arbol->getCodigos();
 	vector<bitset<8>> bs2=second(codigos); //Segundo
 	vector<bitset<64>> bs2p=secondp(codigos); //Segundop
+	arbol->imprimirCodigos();
+	vector<pair<char, string>>::iterator it;
 	bitset<32>bs3=tercero(lid.size()); //Tercero
 	vector<bitset<16>>bs4; //cuarto
 	vector<string>bs4as;
@@ -267,6 +275,7 @@ void Secuencia::cifrar(string file){
 	vector<bitset<64>>bs5=quinto(); //quinto
 	vector<bitset<16>>bs6=sexto();
 	vector<string> cifr=binary_code();
+
 	fabin(file,bs1,bs2,bs2p,bs3,bs4,bs4as,bs5,bs6,cifr);
 }
 
@@ -310,6 +319,7 @@ void Secuencia::empcons(){
 
 
 void Secuencia::decifrar(string file){
+	cout << "This is deci" << endl;
 	ifstream input;
 	this->lid.clear();
 	this->lsec.clear();
@@ -343,7 +353,14 @@ void Secuencia::decifrar(string file){
 				this->dec.fi.push_back(stoi(byte,0,2)); // This is FI
 				byte.clear();
 			}
-			arbol->generarArbol(this->dec.ci,this->dec.fi); 	//creating the tree
+
+			for(int i=0;i<this->dec.fi.size();i++){
+				cout << this->dec.ci[i] << ": " << this->dec.fi[i] << endl;
+			}
+			if(count==0){
+				arbol->generarArbol(dec.ci,dec.fi); 	//creating the tree
+				arbol->imprimirCodigos();
+			}
 			byte.clear();
 			for(int i=0;i<32;i++){
 				input>>aux;
@@ -389,19 +406,20 @@ void Secuencia::decifrar(string file){
 			list<char>laux;
 			string auxcode;
 			getline(input,auxcode,'\n');
-			for(unsigned int i=0;i<auxcode.size();i++){
-				laux.push_back(auxcode[i]);
+			for(char c: auxcode){
+				laux.push_back(c);
 			}
 			unsigned int fuck=1;
 			string res=arbol->desCifrar(laux);
 			laux.clear();
-			for(unsigned int i=0;i<res.size();i++,fuck++){
+			for(char c:res){
 				if(this->dec.xi[count]+1==fuck){
 					laux.push_back('\n');
 					fuck=0;
 				}else{
-					laux.push_back(res[i]);
+					laux.push_back(c);
 				}
+				fuck++;
 			}
 			laux.push_back('\n');
 			this->dec.binary.push_back(laux);
@@ -410,6 +428,45 @@ void Secuencia::decifrar(string file){
 		this->lsec=this->dec.binary;
 		cout << "El archivo se decodifico correctamente" << endl;
 	}
+}
+
+double Secuencia::tranformacion(char ij, char xy){
+	return 1/(1+abs(int(ij)-int(xy)));
+} 
+
+void Secuencia::insertar_grafo(list<char>sec){
+	list<char>::iterator itrsec=sec.begin();
+	for(;itrsec!=sec.end();itrsec++){
+		grafo->insertarVertice(*itrsec);
+	}
+}
+
+int Secuencia::indice(string id){
+	int contador=0;
+	list<string>::iterator itrid=lid.begin();
+	for(;itrid!=lid.end();itrid++,contador++){
+		if(*itrid==id){
+			return contador;
+		}	
+	}
+	return contador;
+}
+
+list<char> Secuencia::indice_secuencia(int cont){
+	list<char> aux;
+	list<list<char>>::iterator itrsec=lsec.begin();
+	int i=0;
+	for(;itrsec!=lsec.end();itrsec++,i++){
+		list<char>var=*itrsec;
+		if(i==cont)
+			aux=*itrsec;
+	}
+	return aux;
+}
+
+void Secuencia::ruta_mas_corta(string id, vector<char>params){
+	insertar_grafo(indice_secuencia(indice(id)));
+
 }
 
 
@@ -747,6 +804,22 @@ void Secuencia::enmascarar(string val_sec)
 	contador=0;
 }
 
+void Secuencia::setIden(){
+	list<list<char>>::iterator itr=this->lsec.begin();
+	for(;itr!=this->lsec.end();itr++){
+		unsigned int contador;
+		list<char>var=*itr;
+		list<char>::iterator itrvar=var.begin();
+		for(;itrvar!=var.end();itrvar++){
+			while(*itrvar!='\n'){
+				contador++;
+			}
+		}
+		this->iden.push_back(contador);
+	}
+
+}
+
 
 void Secuencia::CargarSecuencia(string file)
 {
@@ -772,7 +845,6 @@ void Secuencia::CargarSecuencia(string file)
 			}
 				getline(input,line,'\n');		// lectura de datos del ifstream
 				lid.push_back(line);
-
 				getline(input,line,'>');
 				for(int i=0;i<line.size();i++)
 				{
@@ -781,7 +853,7 @@ void Secuencia::CargarSecuencia(string file)
 			lsec.push_back(sec);
 		}
 		input.close();
-
+		//setIden();
 		if(lsec.empty() && lid.empty())
 		{
 			cout << file << " no contiene ninguna secuencia" << endl;
