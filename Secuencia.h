@@ -52,6 +52,7 @@ public:
 	int hptasapo(std::list<char> vaca);
 	int indice(std::string id);
 	void imp();
+	char inversa(int ind);
 	std::list<char>indice_secuencia(int cont);
 	double tranformacion(char ij, char xy);
 	void ruta_mas_corta(std::string id, std::vector<char>params);

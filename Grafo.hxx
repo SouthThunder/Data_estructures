@@ -133,7 +133,7 @@ int Grafo<T>::insertarArista(int ver_org, int ver_des, double peso)
     {
         list<Arista<T> >* conex=obtenerConexionesVertice(ver_org);
         Vertice<T>* verDes=buscarIndVertice(ver_des);
-        if(!insertarConexion(conex, verDes, peso))
+        if(!insertarConexion(conex, verDes, peso, ver_des))
         {
             return 3;
         }
@@ -190,7 +190,7 @@ Vertice<T>* Grafo<T>::buscarVertice(T ver_des)
 }
 
 template <class T>
-bool Grafo<T>::insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, double peso)
+bool Grafo<T>::insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, double peso, int ind)
 {
     typename list<Arista<T> >::iterator it=conex->begin();
     for(; it!=conex->end(); it++)
@@ -200,7 +200,7 @@ bool Grafo<T>::insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, dou
             return false;
         }
     }
-    Arista<T>* aris=new Arista<T>(verDes, peso);
+    Arista<T>* aris=new Arista<T>(verDes, peso, ind);
     conex->push_back(*aris);
     conex->sort();
 return true;
@@ -438,29 +438,29 @@ Vertice<T> Grafo<T>::mindistance(list<Vertice<T> >* todosLosVertices, vector<dou
     return (*itAux);
 }
 
-template <class T>
-double Grafo<T>::recorridoDijkstra(vector<double>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato)
-{
-    double suma = 0;
-  
-    int indice = obtenerIndice(dato);
-    distancias->at(indice) = 0;
-    prede->at(indice) = dato;
 
+template <class T>
+double Grafo<T>::recorridoDijkstra(vector<double>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato, int in_or)
+{
+    double suma = 0.0;
+    distancias->at(in_or) = 0;
+    prede->at(in_or) = dato;
+    int cont=0;
     list<Vertice<T> > Q(vertices.begin(), vertices.end());
 
     while(!Q.empty())
     {
         Vertice<T> minimo = mindistance(&Q, *distancias);
+       // Vertice<T> *minimo =buscarIndVertice(in_or);
         S->push_back(*minimo.getDato());
-    
-        int indice = obtenerIndice(*minimo.getDato());
+        
+        int indice = cont;
         list<Arista<T> >* aristas = obtenerConexionesVertice(indice);
         
         typename list<Arista<T> >::iterator it=aristas->begin();  
         for(; it!=aristas->end(); it++)
         {
-            int indice2 = obtenerIndice(*it->getSucesor()->getDato());
+            int indice2 = it->getIndice();
             int posibleMinimo = (distancias->at(indice) + it->getPeso());
             
             if(distancias->at(indice2) > posibleMinimo)
@@ -471,6 +471,7 @@ double Grafo<T>::recorridoDijkstra(vector<double>* distancias, vector<Vertice<T>
 
             }
         }
+        cont++;
     }
     return suma;
 }

@@ -432,7 +432,7 @@ void Secuencia::decifrar(string file){
 
 
 double Secuencia::tranformacion(char ij, char xy){
-	return 1/(1+abs(int(ij)-int(xy)));
+	return 1./(1+abs(int(ij)-int(xy)));
 } 
 
 char Secuencia::list_char(int i, list<Vertice<char>>aux){
@@ -498,9 +498,42 @@ list<char> Secuencia::indice_secuencia(int cont){
 	return aux;
 }
 
+char Secuencia::inversa(int indice){
+	int i=0;
+	list<Vertice<char>> aux=grafo->getVertices();
+	list<Vertice<char>>::iterator it=aux.begin();
+	for(;it!=aux.end();it++,i++){
+		if(indice==i)
+			return *it->getDato();
+	}
+	return 'z';
+}
+
+
+
+
 void Secuencia::ruta_mas_corta(string id, vector<char>params){
 	insertar_grafo(indice_secuencia(indice(id)), id);
+	int identacion=this->iden[indice(id)];
+	int in_or=(identacion*int(params[0]-'0'))+int(params[1]-'0');
+	int in_des=(identacion*int(params[2]-'0'))+int(params[3]-'0');
+	int tam=grafo->getConexiones().size();
+	vector<double> * dis= new vector<double>(tam, 999);
+	vector<Vertice<char>> * pre= new vector<Vertice<char>>(tam);
+	vector<char> *recorridos= new vector<char>;
+	grafo->recorridoDijkstra(dis,pre,recorridos,inversa(in_or),in_or);
+	vector<char>::iterator it=recorridos->begin();
+	vector<double>::iterator its=dis->begin();
+	double suma=0.0;
+	for(;it!=recorridos->end();it++,its++){
 
+		if(inversa(in_des)!=*it){
+			suma+=*its;
+		}
+		else{
+			cout << "El camino de menor costo de "<< inversa(in_or) << " hasta " << inversa(in_des) << " es de: " << suma << endl;
+		}
+	}
 }
 
 

@@ -8,7 +8,6 @@ class Vertice
 {
     protected:
         T dato;
-
     public:
         Vertice();
         Vertice(T dato);

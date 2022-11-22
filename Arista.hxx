@@ -2,10 +2,11 @@ template <class T>
 Arista<T>::Arista(){}
 
 template <class T>
-Arista<T>::Arista(Vertice<T>* verDes, double peso)
+Arista<T>::Arista(Vertice<T>* verDes, double peso, int ind)
 {
     this->peso = peso;
     sucesor = verDes;
+    this->indice_sucesor=ind;
 }
 
 template <class T>
@@ -23,6 +24,17 @@ template <class T>
 void Arista<T>::setPeso(double peso)
 {
     this->peso = peso;
+}
+
+template <class T>
+void Arista<T>::setIndice(int indice)
+{
+    this->indice_sucesor = indice;
+}
+
+template <class T>
+int Arista<T>::getIndice(){
+    return indice_sucesor;
 }
 
 template <class T>

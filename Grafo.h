@@ -32,9 +32,10 @@ class Grafo
         int insertarArista(int ver_org, int ver_des, double peso);
         list<Arista<T> >* obtenerConexionesVertice(int indice);
         int obtenerIndice(T ver_org);
+        Vertice<T> test(int ver);
         Vertice<T>* buscarVertice(T ver_des);
         Vertice<T>* buscarIndVertice(int ver_des);
-        bool insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, double peso);
+        bool insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, double peso, int ind);
         int eliminarConexionesEnEliminarVertice(list<Arista<T> >* c,T  dato);
         bool eliminarVertice(T dato);
         void imprimiAristas();
@@ -45,7 +46,7 @@ class Grafo
         bool verticeVisitado(list<Vertice<T>* > lista, T dato);
         double recorridoPrim(vector<double>* distancias,vector<T> *S, T dato);
         Vertice<T> mindistance(list<Vertice<T> >* todosLosVertices, vector<double> distancias);
-        double recorridoDijkstra(vector<double>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato);
+        double recorridoDijkstra(vector<double>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato, int in_or);
         void imprimirPredecesores(vector<Vertice<int> > lista);
 };
 

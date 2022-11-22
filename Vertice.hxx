@@ -13,6 +13,7 @@ T* Vertice<T>::getDato()
     return &dato;
 }
 
+
 template <class T>
 void Vertice<T>::setDato(T dato)
 {

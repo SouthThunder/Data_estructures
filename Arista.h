@@ -9,11 +9,14 @@ class Arista
     protected:
         double peso;
         Vertice<T>* sucesor;
+        int indice_sucesor;
         
     public:
         Arista();
-        Arista(Vertice<T>* verDes, double peso);
+        Arista(Vertice<T>* verDes, double peso, int ind);
         double getPeso();
+        int getIndice();
+        void setIndice(int in);
         Vertice<T>* getSucesor();
         void setPeso(double peso);
         void setSucesor(Vertice<T>* sucesor);
