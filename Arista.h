@@ -7,15 +7,15 @@ template <class T>
 class Arista
 {
     protected:
-        float peso;
+        double peso;
         Vertice<T>* sucesor;
         
     public:
         Arista();
-        Arista(Vertice<T>* verDes, float peso);
-        float getPeso();
+        Arista(Vertice<T>* verDes, double peso);
+        double getPeso();
         Vertice<T>* getSucesor();
-        void setPeso(float peso);
+        void setPeso(double peso);
         void setSucesor(Vertice<T>* sucesor);
         bool operator <(Arista<T>& ar);
 };

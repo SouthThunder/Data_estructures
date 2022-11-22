@@ -431,7 +431,7 @@ void Secuencia::decifrar(string file){
 
 
 
-float Secuencia::tranformacion(char ij, char xy){
+double Secuencia::tranformacion(char ij, char xy){
 	return 1/(1+abs(int(ij)-int(xy)));
 } 
 
@@ -451,13 +451,15 @@ void Secuencia::vecinos(string id){
 	list<Vertice<char>> aux=grafo->getVertices();
 	for(int i=0;i<grafo->getVertices().size();i++,contador++){
 		if(contador<this->iden[indice(id)]){
+			cout << "first" << endl;
 			grafo->insertarArista(i,(i+1),tranformacion(list_char(i,aux),list_char(i+1,aux)));
 		}
-		else{
+		else if(contador>=this->iden[indice(id)]){
 			contador=0;
 		}
 		if(this->iden[indice(id)]+i<grafo->getVertices().size()){
-			grafo->insertarArista(i,(i+this->iden[indice(id)]),tranformacion(list_char(i,aux),list_char((i+this->iden[indice(id)]),aux)));
+			cout << "Second" << endl;
+			grafo->insertarArista(i,(i+1+this->iden[indice(id)]),tranformacion(list_char(i,aux),list_char((i+this->iden[indice(id)]),aux)));
 		}
 	}
 }

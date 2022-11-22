@@ -119,7 +119,7 @@ Vertice<T>* Grafo<T>::buscarIndVertice(int ver_des){
 
 
 template <class T>
-int Grafo<T>::insertarArista(int ver_org, int ver_des, float peso)
+int Grafo<T>::insertarArista(int ver_org, int ver_des, double peso)
 {
     if(!estaIndice(ver_org))
     {
@@ -190,7 +190,7 @@ Vertice<T>* Grafo<T>::buscarVertice(T ver_des)
 }
 
 template <class T>
-bool Grafo<T>::insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, float peso)
+bool Grafo<T>::insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, double peso)
 {
     typename list<Arista<T> >::iterator it=conex->begin();
     for(; it!=conex->end(); it++)
@@ -367,9 +367,9 @@ bool Grafo<T>::verticeVisitado(list<Vertice<T>* > lista, T dato)
 }
 
 template <class T>
-float Grafo<T>::recorridoPrim(vector<float>* distancias, vector<T> *S,T dato){
+double Grafo<T>::recorridoPrim(vector<double>* distancias, vector<T> *S,T dato){
 
-    float suma = 0;
+    double suma = 0;
     int indice = obtenerIndice(dato);
 
     if (estaVertice(dato))
@@ -379,17 +379,17 @@ float Grafo<T>::recorridoPrim(vector<float>* distancias, vector<T> *S,T dato){
 
         struct compare {
             public: 
-                bool operator()(pair<float, int> x, pair<float, int>y)
+                bool operator()(pair<double, int> x, pair<double, int>y)
                 {
                     return x.first > y.first;
                 }
         };
-        priority_queue<pair<float, int>, vector <pair<float, int>>, compare> cola;
+        priority_queue<pair<double, int>, vector <pair<double, int>>, compare> cola;
         cola.push({0,indice});
 
         while(!cola.empty())
         {
-            pair<float, int> curr =  cola.top();
+            pair<double, int> curr =  cola.top();
             cola.pop();
             if(!visitados[curr.second])
             {
@@ -420,7 +420,7 @@ float Grafo<T>::recorridoPrim(vector<float>* distancias, vector<T> *S,T dato){
 }
 
 template <class T>
-Vertice<T> Grafo<T>::mindistance(list<Vertice<T> >* todosLosVertices, vector<float> distancias)
+Vertice<T> Grafo<T>::mindistance(list<Vertice<T> >* todosLosVertices, vector<double> distancias)
 {
     typename list<Vertice<T> >::iterator it=todosLosVertices->begin();
     typename list<Vertice<T> >::iterator itAux=todosLosVertices->begin();
@@ -439,9 +439,9 @@ Vertice<T> Grafo<T>::mindistance(list<Vertice<T> >* todosLosVertices, vector<flo
 }
 
 template <class T>
-float Grafo<T>::recorridoDijkstra(vector<float>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato)
+double Grafo<T>::recorridoDijkstra(vector<double>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato)
 {
-    float suma = 0;
+    double suma = 0;
   
     int indice = obtenerIndice(dato);
     distancias->at(indice) = 0;

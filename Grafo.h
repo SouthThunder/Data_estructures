@@ -29,12 +29,12 @@ class Grafo
         bool estaVertice(Vertice<T> vertice);
         bool estaVertice(T dato);
         bool estaIndice(int i);
-        int insertarArista(int ver_org, int ver_des, float peso);
+        int insertarArista(int ver_org, int ver_des, double peso);
         list<Arista<T> >* obtenerConexionesVertice(int indice);
         int obtenerIndice(T ver_org);
         Vertice<T>* buscarVertice(T ver_des);
         Vertice<T>* buscarIndVertice(int ver_des);
-        bool insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, float peso);
+        bool insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, double peso);
         int eliminarConexionesEnEliminarVertice(list<Arista<T> >* c,T  dato);
         bool eliminarVertice(T dato);
         void imprimiAristas();
@@ -43,9 +43,9 @@ class Grafo
         int eliminarArista(T ver_org, T ver_des);
         Arista<T>* buscarArista(T ver_org, T ver_des);
         bool verticeVisitado(list<Vertice<T>* > lista, T dato);
-        float recorridoPrim(vector<float>* distancias,vector<T> *S, T dato);
-        Vertice<T> mindistance(list<Vertice<T> >* todosLosVertices, vector<float> distancias);
-        float recorridoDijkstra(vector<float>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato);
+        double recorridoPrim(vector<double>* distancias,vector<T> *S, T dato);
+        Vertice<T> mindistance(list<Vertice<T> >* todosLosVertices, vector<double> distancias);
+        double recorridoDijkstra(vector<double>* distancias, vector<Vertice<T> >* prede, vector<T> *S, T dato);
         void imprimirPredecesores(vector<Vertice<int> > lista);
 };
 

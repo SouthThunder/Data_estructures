@@ -2,14 +2,14 @@ template <class T>
 Arista<T>::Arista(){}
 
 template <class T>
-Arista<T>::Arista(Vertice<T>* verDes, float peso)
+Arista<T>::Arista(Vertice<T>* verDes, double peso)
 {
     this->peso = peso;
     sucesor = verDes;
 }
 
 template <class T>
-float Arista<T>::getPeso()
+double Arista<T>::getPeso()
 {
     return this->peso;
 }
@@ -20,7 +20,7 @@ Vertice<T>* Arista<T>::getSucesor()
 }
 
 template <class T>
-void Arista<T>::setPeso(float peso)
+void Arista<T>::setPeso(double peso)
 {
     this->peso = peso;
 }

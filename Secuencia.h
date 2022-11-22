@@ -53,7 +53,7 @@ public:
 	int indice(std::string id);
 	void imp();
 	std::list<char>indice_secuencia(int cont);
-	float tranformacion(char ij, char xy);
+	double tranformacion(char ij, char xy);
 	void ruta_mas_corta(std::string id, std::vector<char>params);
 	void fabin(std::string file, bitset<16> bs1, std::vector<bitset<8>> bs2, std::vector<bitset<64>> bs2p, bitset<32>bs3, std::vector<bitset<16>>bs4, std::vector<string>bs4as, std::vector<bitset<64>>bs5, std::vector<bitset<16>>bs6, std::vector<std::string> cifr);
 protected:
