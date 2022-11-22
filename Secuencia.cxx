@@ -446,21 +446,23 @@ char Secuencia::list_char(int i, list<Vertice<char>>aux){
 	return res;
 }
 
-void Secuencia::vecinos(){
+void Secuencia::vecinos(string id){
 	int contador=0;
 	list<Vertice<char>> aux=grafo->getVertices();
 	for(int i=0;i<grafo->getVertices().size();i++,contador++){
 		if(i<contador)
 			grafo->insertarArista(i,(i+1),tranformacion(list_char(i,aux),list_char(i+1,aux)));
-		//grafo->insertarArista(i,)
+		if(this->iden[indice(id)]+i<grafo->getVertices().size())
+			grafo->insertarArista(i,(i+this->iden[indice(id)]),tranformacion(list_char(i,aux),list_char((i+this->iden[indice(id)]),aux)));
 	}
 }
 
-void Secuencia::insertar_grafo(list<char>sec){
+void Secuencia::insertar_grafo(list<char>sec, string id){
 	list<char>::iterator itrsec=sec.begin();
 	for(;itrsec!=sec.end();itrsec++){
 		grafo->insertarVertice(*itrsec);
 	}
+	vecinos(id);
 }
 
 int Secuencia::indice(string id){
@@ -487,7 +489,7 @@ list<char> Secuencia::indice_secuencia(int cont){
 }
 
 void Secuencia::ruta_mas_corta(string id, vector<char>params){
-	insertar_grafo(indice_secuencia(indice(id)));
+	insertar_grafo(indice_secuencia(indice(id)), id);
 
 }
 

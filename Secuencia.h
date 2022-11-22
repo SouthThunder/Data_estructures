@@ -46,8 +46,8 @@ public:
 	std::vector<std::string> binary_code();
 	void setIden();
 	void empcons();
-	void insertar_grafo(std::list<char>sec);
-	void vecinos();
+	void insertar_grafo(std::list<char>sec, std::string id);
+	void vecinos(std::string id);
 	char list_char(int i, list<Vertice<char>> aux);
 	int hptasapo(std::list<char> vaca);
 	int indice(std::string id);
