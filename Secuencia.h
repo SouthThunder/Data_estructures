@@ -51,6 +51,7 @@ public:
 	char list_char(int i, list<Vertice<char>> aux);
 	int hptasapo(std::list<char> vaca);
 	int indice(std::string id);
+	void imp();
 	std::list<char>indice_secuencia(int cont);
 	float tranformacion(char ij, char xy);
 	void ruta_mas_corta(std::string id, std::vector<char>params);

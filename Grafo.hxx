@@ -278,8 +278,8 @@ void Grafo<T>::imprimiAristas()
         typename list<Arista<T> >::iterator itConexiones=aristasDelVertice->begin();
         for(; itConexiones!=aristasDelVertice->end(); itConexiones++)
         {
-            cout << "\t(" << itVertices->getDato()->X << "," << itVertices->getDato()->Y << ")"; 
-            cout << "\t  (" << itConexiones->getSucesor()->getDato()->X << "," << itConexiones->getSucesor()->getDato()->Y << ")"; 
+            cout << "\t(" << itVertices->getDato() << "," << itVertices->getDato() << ")"; 
+            cout << "\t  (" << itConexiones->getSucesor()->getDato() << "," << itConexiones->getSucesor()->getDato() << ")"; 
             cout << "\t" << itConexiones->getPeso() << endl;
         }
             

@@ -231,6 +231,7 @@ void low_cost(vector<char>params, string last){
 	}
 	else{
 		secuen.ruta_mas_corta(last, params);
+		secuen.imp();
 	}
 }
 

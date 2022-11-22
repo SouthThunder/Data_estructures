@@ -450,10 +450,15 @@ void Secuencia::vecinos(string id){
 	int contador=0;
 	list<Vertice<char>> aux=grafo->getVertices();
 	for(int i=0;i<grafo->getVertices().size();i++,contador++){
-		if(i<contador)
+		if(contador<this->iden[indice(id)]){
 			grafo->insertarArista(i,(i+1),tranformacion(list_char(i,aux),list_char(i+1,aux)));
-		if(this->iden[indice(id)]+i<grafo->getVertices().size())
+		}
+		else{
+			contador=0;
+		}
+		if(this->iden[indice(id)]+i<grafo->getVertices().size()){
 			grafo->insertarArista(i,(i+this->iden[indice(id)]),tranformacion(list_char(i,aux),list_char((i+this->iden[indice(id)]),aux)));
+		}
 	}
 }
 
@@ -463,6 +468,10 @@ void Secuencia::insertar_grafo(list<char>sec, string id){
 		grafo->insertarVertice(*itrsec);
 	}
 	vecinos(id);
+}
+
+void Secuencia::imp(){
+	grafo->imprimiAristas();
 }
 
 int Secuencia::indice(string id){
