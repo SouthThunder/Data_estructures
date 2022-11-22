@@ -451,14 +451,12 @@ void Secuencia::vecinos(string id){
 	list<Vertice<char>> aux=grafo->getVertices();
 	for(int i=0;i<grafo->getVertices().size();i++,contador++){
 		if(contador<this->iden[indice(id)]){
-			cout << "first" << endl;
 			grafo->insertarArista(i,(i+1),tranformacion(list_char(i,aux),list_char(i+1,aux)));
 		}
 		else if(contador>=this->iden[indice(id)]){
-			contador=0;
+			contador=-1;
 		}
 		if(this->iden[indice(id)]+i<grafo->getVertices().size()){
-			cout << "Second" << endl;
 			grafo->insertarArista(i,(i+1+this->iden[indice(id)]),tranformacion(list_char(i,aux),list_char((i+this->iden[indice(id)]),aux)));
 		}
 	}
@@ -467,7 +465,8 @@ void Secuencia::vecinos(string id){
 void Secuencia::insertar_grafo(list<char>sec, string id){
 	list<char>::iterator itrsec=sec.begin();
 	for(;itrsec!=sec.end();itrsec++){
-		grafo->insertarVertice(*itrsec);
+		if(*itrsec!='\n')
+			grafo->insertarVertice(*itrsec);
 	}
 	vecinos(id);
 }
@@ -844,7 +843,9 @@ int Secuencia::hptasapo(list<char>rana){
 	list<char>::iterator itrrana=rana.begin();
 	for(;itrrana!=rana.end();itrrana++,contador++){
 		if(*itrrana=='\n')
-			return contador;
+		{
+			return contador-1;
+		}
 	}
 	return contador;
 }
