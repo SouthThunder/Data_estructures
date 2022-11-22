@@ -55,14 +55,11 @@ int Grafo<T>::cantidadAristas()
 template <class T>
 bool Grafo<T>::insertarVertice(Vertice<T> vertice)
 { 
-    if(!estaVertice(vertice))
-    {
+
         vertices.push_back(vertice);
         list<Arista<T> > aux;
         conexiones.push_back(aux);
-        return true;
-    }
-    return false;
+    return true;
 }
 
 template <class T>
@@ -101,21 +98,41 @@ bool Grafo<T>::estaVertice(T dato)
 }
 
 template <class T>
-int Grafo<T>::insertarArista(T ver_org, T ver_des, float peso)
+bool Grafo<T>::estaIndice(int i){
+    if(i>=0 && i<vertices.size())
+        return true;
+    else
+        return false;
+}
+
+
+template <class T>
+Vertice<T>* Grafo<T>::buscarIndVertice(int ver_des){
+    typename list<Vertice<T>>::iterator it=vertices.begin();
+    for(int i=0; it!=vertices.end(); it++, i++){
+        if(i==ver_des)
+            return &(*it);
+    }
+    return NULL;
+}
+
+
+
+template <class T>
+int Grafo<T>::insertarArista(int ver_org, int ver_des, float peso)
 {
-    if(!estaVertice(ver_org))
+    if(!estaIndice(ver_org))
     {
         return 1;
     }
-    else if(!estaVertice(ver_des))
+    else if(!estaIndice(ver_des))
     {
         return 2;
     }
     else
     {
-        int indice=obtenerIndice(ver_org);
-        list<Arista<T> >* conex=obtenerConexionesVertice(indice);
-        Vertice<T>* verDes=buscarVertice(ver_des);
+        list<Arista<T> >* conex=obtenerConexionesVertice(ver_org);
+        Vertice<T>* verDes=buscarIndVertice(ver_des);
         if(!insertarConexion(conex, verDes, peso))
         {
             return 3;
@@ -361,8 +378,8 @@ float Grafo<T>::recorridoPrim(vector<float>* distancias, vector<T> *S,T dato){
         visitados.resize(cantidadVertices());
 
         struct compare {
-	        public: 
-	            bool operator()(pair<float, int> x, pair<float, int>y)
+            public: 
+                bool operator()(pair<float, int> x, pair<float, int>y)
                 {
                     return x.first > y.first;
                 }

@@ -3,7 +3,6 @@
 #include <vector>
 #include <fstream>
 #include <list>
-#include "ArbolH.h"
 #include <utility>
 #include <bitset>
 #include <cstdlib>
@@ -430,9 +429,32 @@ void Secuencia::decifrar(string file){
 	}
 }
 
-double Secuencia::tranformacion(char ij, char xy){
+
+
+float Secuencia::tranformacion(char ij, char xy){
 	return 1/(1+abs(int(ij)-int(xy)));
 } 
+
+char Secuencia::list_char(int i, list<Vertice<char>>aux){
+	int contador=0;
+	char res;
+	list<Vertice<char>>::iterator it=aux.begin();
+	for(;it!=aux.end();it++,contador++){
+		if(i==contador)
+			return *it->getDato();
+	}
+	return res;
+}
+
+void Secuencia::vecinos(){
+	int contador=0;
+	list<Vertice<char>> aux=grafo->getVertices();
+	for(int i=0;i<grafo->getVertices().size();i++,contador++){
+		if(i<contador)
+			grafo->insertarArista(i,(i+1),tranformacion(list_char(i,aux),list_char(i+1,aux)));
+		//grafo->insertarArista(i,)
+	}
+}
 
 void Secuencia::insertar_grafo(list<char>sec){
 	list<char>::iterator itrsec=sec.begin();
@@ -804,20 +826,22 @@ void Secuencia::enmascarar(string val_sec)
 	contador=0;
 }
 
+int Secuencia::hptasapo(list<char>rana){
+	int contador=0;
+	list<char>::iterator itrrana=rana.begin();
+	for(;itrrana!=rana.end();itrrana++,contador++){
+		if(*itrrana=='\n')
+			return contador;
+	}
+	return contador;
+}
+
 void Secuencia::setIden(){
 	list<list<char>>::iterator itr=this->lsec.begin();
 	for(;itr!=this->lsec.end();itr++){
-		unsigned int contador;
-		list<char>var=*itr;
-		list<char>::iterator itrvar=var.begin();
-		for(;itrvar!=var.end();itrvar++){
-			while(*itrvar!='\n'){
-				contador++;
-			}
-		}
-		this->iden.push_back(contador);
+		int cabra=hptasapo(*itr);
+		this->iden.push_back(cabra);
 	}
-
 }
 
 

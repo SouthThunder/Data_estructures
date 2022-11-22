@@ -9,7 +9,7 @@ class Arista
     protected:
         float peso;
         Vertice<T>* sucesor;
-
+        
     public:
         Arista();
         Arista(Vertice<T>* verDes, float peso);

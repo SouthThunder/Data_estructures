@@ -129,6 +129,7 @@ void imp()
 void afile(string file)
 {
 	secuen.CargarSecuencia(file);
+	secuen.setIden();
 }
 
 void hist(string last)

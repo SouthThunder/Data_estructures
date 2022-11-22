@@ -28,11 +28,12 @@ class Grafo
         bool insertarVertice(T dato);
         bool estaVertice(Vertice<T> vertice);
         bool estaVertice(T dato);
-        int insertarArista(Vertice<T> ver_o, Vertice<T> ver_d, float peso);
-        int insertarArista(T ver_org, T ver_des, float peso);
+        bool estaIndice(int i);
+        int insertarArista(int ver_org, int ver_des, float peso);
         list<Arista<T> >* obtenerConexionesVertice(int indice);
         int obtenerIndice(T ver_org);
         Vertice<T>* buscarVertice(T ver_des);
+        Vertice<T>* buscarIndVertice(int ver_des);
         bool insertarConexion(list<Arista<T> >* conex, Vertice<T>* verDes, float peso);
         int eliminarConexionesEnEliminarVertice(list<Arista<T> >* c,T  dato);
         bool eliminarVertice(T dato);
